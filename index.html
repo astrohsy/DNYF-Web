@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <title>DNYF</title>
+</head>
+
+<body>
+    <h1>Hello 🎉</h1>
+
+    <div x-data="userSearch">
+        <input type="text" name="userSearch" placeholder="Try bob or cat" x-model="username"
+            x-on:keyup.enter="fetchUser()">
+        <button type="submit" x-on:click="fetchUser()" x-bind:disabled="isLoading">
+            Search
+        </button>
+        <template x-if="user">
+            <div>
+                <strong x-text="user.name"></strong>
+                (<span x-text="user.email"></span>)
+            </div>
+        </template>
+        <template x-if="user === undefined">
+            <div>No results</div>
+        </template>
+    </div>
+
+    <script>
+        document.addEventListener("alpine:init", () => {
+            const ENDPOINT = "http://localhost:3000"
+
+            Alpine.data("userSearch", () => ({
+                username: "",
+                isLoading: false,
+                user: null,
+
+                fetchUser() {
+                    if (!this.username) return
+
+                    this.isLoading = true
+                    fetch(`${ENDPOINT}/users?username=${this.username}`)
+                        .then(res => res.json())
+                        .then(data => {
+                            this.isLoading = false
+                            this.user = data[0]
+                        })
+                        .catch(error => {
+                            console.error(`Fetch error: ${error}`)
+                        })
+                }
+            }))
+        })
+    </script>
+</body>
+
+</html>
