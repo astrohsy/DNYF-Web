@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <title>DNYF</title>
+</head>
+
+<body>
+    <h1>Hello 🎉</h1>
+
+    <div x-data="search" x-init="fetchPokemon()">
+        <input type="text" name="pokemonSearch" x-model="pokemonSearch" x-on:keyup.enter="fetchPokemon()">
+        <button type="submit" x-on:click="fetchPokemon()" x-bind:disabled="isLoading">
+            Search
+        </button>
+        <template x-if="pokemon">
+            <div>
+                <img x-bind:src="pokemon.sprites.front_default">
+                <div>
+                    <strong x-text="pokemon.name"></strong>
+                    <ul>
+                        <template x-for="ability in pokemon.abilities">
+                            <li x-text="ability.ability.name"></li>
+                        </template>
+                    </ul>
+                </div>
+            </div>
+        </template>
+        <p x-show="error" x-text="error"></p>
+    </div>
+
+    <script>
+        document.addEventListener("alpine:init", () => {
+            const ENDPOINT = "https://pokeapi.co/api/v2/pokemon"
+
+            Alpine.data("search", () => ({
+                pokemonSearch: "charizard",
+                isLoading: false,
+                pokemon: null,
+                error: null,
+
+                fetchPokemon() {
+                    if (!this.pokemonSearch) return
+
+                    this.isLoading = true
+                    fetch(`${ENDPOINT}/${this.pokemonSearch}`)
+                        .then(res => {
+                            if (!res.ok) {
+                                if (res.status === 404) {
+                                    throw new Error("Pokemon not found")
+                                } else {
+                                    throw new Error("Search error")
+                                }
+                            }
+                            return res.json()
+                        })
+                        .then(data => {
+                            this.isLoading = false
+                            this.pokemon = data
+                            this.error = null
+                        })
+                        .catch(error => {
+                            this.pokemon = null
+                            this.error = error
+                        })
+                }
+            }))
+        })
+    </script>
+</body>
+
+</html>
