@@ -12,44 +12,60 @@
 <body>
     <h1>Hello 🎉</h1>
 
-    <div x-data="userSearch">
-        <input type="text" name="userSearch" placeholder="Try bob or cat" x-model="username"
-            x-on:keyup.enter="fetchUser()">
-        <button type="submit" x-on:click="fetchUser()" x-bind:disabled="isLoading">
+    <div x-data="search" x-init="fetchPokemon()">
+        <input type="text" name="pokemonSearch" x-model="pokemonSearch" x-on:keyup.enter="fetchPokemon()">
+        <button type="submit" x-on:click="fetchPokemon()" x-bind:disabled="isLoading">
             Search
         </button>
-        <template x-if="user">
+        <template x-if="pokemon">
             <div>
-                <strong x-text="user.name"></strong>
-                (<span x-text="user.email"></span>)
+                <img x-bind:src="pokemon.sprites.front_default">
+                <div>
+                    <strong x-text="pokemon.name"></strong>
+                    <ul>
+                        <template x-for="ability in pokemon.abilities">
+                            <li x-text="ability.ability.name"></li>
+                        </template>
+                    </ul>
+                </div>
             </div>
         </template>
-        <template x-if="user === undefined">
-            <div>No results</div>
-        </template>
+        <p x-show="error" x-text="error"></p>
     </div>
 
     <script>
         document.addEventListener("alpine:init", () => {
-            const ENDPOINT = "http://localhost:3000"
+            const ENDPOINT = "https://pokeapi.co/api/v2/pokemon"
 
-            Alpine.data("userSearch", () => ({
-                username: "",
+            Alpine.data("search", () => ({
+                pokemonSearch: "charizard",
                 isLoading: false,
-                user: null,
+                pokemon: null,
+                error: null,
 
-                fetchUser() {
-                    if (!this.username) return
+                fetchPokemon() {
+                    if (!this.pokemonSearch) return
 
                     this.isLoading = true
-                    fetch(`${ENDPOINT}/users?username=${this.username}`)
-                        .then(res => res.json())
+                    fetch(`${ENDPOINT}/${this.pokemonSearch}`)
+                        .then(res => {
+                            if (!res.ok) {
+                                if (res.status === 404) {
+                                    throw new Error("Pokemon not found")
+                                } else {
+                                    throw new Error("Search error")
+                                }
+                            }
+                            return res.json()
+                        })
                         .then(data => {
                             this.isLoading = false
-                            this.user = data[0]
+                            this.pokemon = data
+                            this.error = null
                         })
                         .catch(error => {
-                            console.error(`Fetch error: ${error}`)
+                            this.pokemon = null
+                            this.error = error
                         })
                 }
             }))
