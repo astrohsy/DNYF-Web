@@ -1,11 +1,41 @@
-# DNYF-Web
-Web Application for DNYF
+# Quasar App (quasar-project)
 
-Uses [Alpine.js](https://alpinejs.dev/)
+A Quasar Project
 
-Currently calls the Pokemon API, but [json-server](https://github.com/typicode/json-server) can be used as a mock backend:
-
+## Install the dependencies
+```bash
+yarn
+# or
+npm install
 ```
-npm install -g json-server
-json-server --watch test_data.json
+
+### Start the app in development mode (hot-code reloading, error reporting, etc.)
+```bash
+quasar dev
 ```
+
+
+### Lint the files
+```bash
+yarn lint
+# or
+npm run lint
+```
+
+
+### Format the files
+```bash
+yarn format
+# or
+npm run format
+```
+
+
+
+### Build the app for production
+```bash
+quasar build
+```
+
+### Customize the configuration
+See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js).
