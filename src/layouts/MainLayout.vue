@@ -11,44 +11,27 @@
           @click="toggleLeftDrawer"
         />
 
-        <q-toolbar-title>
-          DNYF App
-        </q-toolbar-title>
-
-        <q-tabs
-        v-model="tab"
-        dense
-        no-caps
-        inline-label
-        class="bg-purple text-white shadow-2"
-      >
-        <q-tab name="users" icon="manage_accounts" label="Profile" />
-        <q-tab name="groups" icon="groups" label="Groups" />
-      </q-tabs>
+        <q-toolbar-title> DNYF App </q-toolbar-title>
+        <q-btn-group rounded>
+          <q-btn
+            to="/user"
+            label="Profile"
+            rounded
+            color="primary"
+            icon="verified_user"
+            no-caps
+          />
+          <q-btn
+            to="/"
+            label="Group"
+            rounded
+            color="primary"
+            icon="groups"
+            no-caps
+          />
+        </q-btn-group>
       </q-toolbar>
     </q-header>
-
-
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-    >
-      <q-list>
-        <q-item-label
-          header
-        >
-          Essential Links
-        </q-item-label>
-
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
-        />
-      </q-list>
-    </q-drawer>
-
     <q-page-container>
       <router-view />
     </q-page-container>
@@ -56,71 +39,35 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue'
-import EssentialLink from 'components/EssentialLink.vue'
-
-const linksList = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
-  }
-]
+import { defineComponent, ref } from "vue";
+//import EssentialLink from "components/EssentialLink.vue";
 
 export default defineComponent({
-  name: 'MainLayout',
+  name: "MainLayout",
 
   components: {
-    EssentialLink
+    //EssentialLink,
   },
 
-  setup () {
-    const leftDrawerOpen = ref(false)
+  setup() {
+    const redirect = (e, go) => {
+      console.log("hhihihihi");
+      go({
+        to: "/user", // we pick another route
+        // replace: boolean; default is what the tab is configured with
+        // returnRouterError: boolean
+      })
+        .then((_vueRouterResult) => {
+          /* ... */
+        })
+        .catch((_vueRouterError) => {
+          /* ...will not reach here unless returnRouterError === true */
+        });
+    };
 
     return {
-      essentialLinks: linksList,
-      leftDrawerOpen,
-      toggleLeftDrawer () {
-        leftDrawerOpen.value = !leftDrawerOpen.value
-      }
-    }
-  }
-})
+      redirect,
+    };
+  },
+});
 </script>
