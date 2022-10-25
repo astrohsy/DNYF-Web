@@ -5,7 +5,7 @@
         src="https://cdn.quasar.dev/img/chicken-salad.jpg"
         style="width: 200px"
       />
-      <q-card-section>
+      <q-card-section style="width: 100%">
         <q-card-section>
           <q-btn
             fab
@@ -16,7 +16,7 @@
           />
 
           <div class="row no-wrap items-center">
-            <div class="col text-h6 ellipsis">{{ title }}</div>
+            <div class="col text-h6 ellipsis">{{ group_name }}</div>
             <div
               class="col-auto text-grey text-caption q-pt-md row no-wrap items-center"
             >
@@ -58,7 +58,11 @@ import { defineComponent } from "vue";
 export default defineComponent({
   name: "GroupPost",
   props: {
-    title: {
+    group_id: {
+      type: Number,
+      required: true,
+    },
+    group_name: {
       type: String,
       required: true,
     },

@@ -1,6 +1,6 @@
 <template>
   <q-page padding>
-    <GroupPost v-bind:key="item.title" v-for="item in items" v-bind="item" />
+    <GroupPost v-bind:key="item.group_id" v-for="item in items" v-bind="item" />
   </q-page>
 </template>
 
@@ -8,48 +8,60 @@
 import { defineComponent, ref } from "vue";
 import GroupPost from "src/components/GroupPost.vue";
 
-const items = [
+const groups = [
   {
-    title: "Docs",
-    caption: "quasar.dev",
-    icon: "school",
-    link: "https://quasar.dev",
+    group_id: 1,
+    group_name: "Hello",
+    group_capacity: 1,
+    links: [
+      {
+        href: "/groups/1",
+        rel: "self",
+        type: "GET",
+      },
+      {
+        href: "/groups/1/members",
+        rel: "get_members",
+        type: "GET",
+      },
+      {
+        href: "/groups/1",
+        rel: "delete_group",
+        type: "DELETE",
+      },
+      {
+        href: "/groups/1",
+        rel: "edit_group",
+        type: "PUT",
+      },
+    ],
   },
   {
-    title: "Github",
-    caption: "github.com/quasarframework",
-    icon: "code",
-    link: "https://github.com/quasarframework",
-  },
-  {
-    title: "Discord Chat Channel",
-    caption: "chat.quasar.dev",
-    icon: "chat",
-    link: "https://chat.quasar.dev",
-  },
-  {
-    title: "Forum",
-    caption: "forum.quasar.dev",
-    icon: "record_voice_over",
-    link: "https://forum.quasar.dev",
-  },
-  {
-    title: "Twitter",
-    caption: "@quasarframework",
-    icon: "rss_feed",
-    link: "https://twitter.quasar.dev",
-  },
-  {
-    title: "Facebook",
-    caption: "@QuasarFramework",
-    icon: "public",
-    link: "https://facebook.quasar.dev",
-  },
-  {
-    title: "Quasar Awesome",
-    caption: "Community Quasar projects",
-    icon: "favorite",
-    link: "https://awesome.quasar.dev",
+    group_id: 2,
+    group_name: "Hello 2",
+    group_capacity: 2,
+    links: [
+      {
+        href: "/groups/2",
+        rel: "self",
+        type: "GET",
+      },
+      {
+        href: "/groups/2/members",
+        rel: "get_members",
+        type: "GET",
+      },
+      {
+        href: "/groups/2",
+        rel: "delete_group",
+        type: "DELETE",
+      },
+      {
+        href: "/groups/2",
+        rel: "edit_group",
+        type: "PUT",
+      },
+    ],
   },
 ];
 
@@ -62,7 +74,7 @@ export default defineComponent({
 
   setup() {
     return {
-      items: items,
+      items: groups,
     };
   },
 });
