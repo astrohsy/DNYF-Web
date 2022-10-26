@@ -1,10 +1,7 @@
 <template>
   <q-card class="my-card">
     <q-card-section horizontal>
-      <q-img
-        src="https://cdn.quasar.dev/img/chicken-salad.jpg"
-        style="width: 200px"
-      />
+      <q-img :src="group_image_url" style="width: 200px" />
       <q-card-section style="width: 100%">
         <q-card-section>
           <q-btn
@@ -25,13 +22,18 @@
             </div>
           </div>
 
-          <q-rating v-model="stars" :max="5" size="32px" />
+          <q-rating
+            v-model="starRating"
+            :max="group_capacity"
+            icon="persons"
+            size="24px"
+          />
         </q-card-section>
 
         <q-card-section class="q-pt-none">
-          <div class="text-subtitle1">$・Italian, Cafe</div>
+          <div class="text-subtitle1">Butler Library</div>
           <div class="text-caption text-grey">
-            Small plates, salads & sandwiches in an intimate setting.
+            Looking for people to practice midterm together!
           </div>
         </q-card-section>
       </q-card-section>
@@ -40,8 +42,8 @@
     <q-separator />
 
     <q-card-actions>
-      <q-btn flat round icon="event" />
-      <q-btn flat color="primary"> Reserve </q-btn>
+      <q-btn flat round icon="check" />
+      <q-btn flat color="primary">Join</q-btn>
     </q-card-actions>
   </q-card>
 </template>
@@ -53,7 +55,7 @@
 </style>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 
 export default defineComponent({
   name: "GroupPost",
@@ -66,6 +68,19 @@ export default defineComponent({
       type: String,
       required: true,
     },
+    group_capacity: {
+      type: Number,
+      required: true,
+    },
+    group_image_url: {
+      type: String,
+      required: false,
+    },
+  },
+  setup: () => {
+    return {
+      starRating: ref(1),
+    };
   },
 });
 </script>
