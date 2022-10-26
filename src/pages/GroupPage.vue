@@ -40,6 +40,7 @@ const groups = [
     group_name: "Operating Systems 1 Midterm Practice",
     group_capacity: 8,
     group_image_url: "images/group-preview-picture-1.jpg",
+    registered: true,
     links: [
       {
         href: "/groups/1",

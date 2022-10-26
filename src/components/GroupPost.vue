@@ -41,8 +41,12 @@
 
     <q-separator />
 
-    <q-card-actions>
-      <q-btn flat round icon="check" />
+    <q-card-actions v-if="registered">
+      <q-btn flat round icon="cancel" color="red" />
+      <q-btn flat color="red"> Cancel </q-btn>
+    </q-card-actions>
+    <q-card-actions v-else>
+      <q-btn flat round icon="check" color="primary" />
       <q-btn flat color="primary">Join</q-btn>
     </q-card-actions>
   </q-card>
@@ -74,6 +78,10 @@ export default defineComponent({
     },
     group_image_url: {
       type: String,
+      required: false,
+    },
+    registered: {
+      type: Boolean,
       required: false,
     },
   },
