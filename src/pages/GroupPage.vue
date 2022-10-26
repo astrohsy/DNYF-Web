@@ -7,6 +7,8 @@
 <script>
 import { defineComponent, ref } from "vue";
 import GroupPost from "src/components/GroupPost.vue";
+import { api } from "boot/axios";
+import { useQuasar } from "quasar";
 
 const groups = [
   {
@@ -67,6 +69,8 @@ const groups = [
   },
 ];
 
+const data = ref(null);
+
 export default defineComponent({
   name: "GroupPage",
 
@@ -75,6 +79,25 @@ export default defineComponent({
   },
 
   setup() {
+    const $q = useQuasar();
+    const data = ref(null);
+    function loadData() {
+      api
+        .get("/breeds/image/random")
+        .then((response) => {
+          data.value = response.data;
+          console.log(data.value);
+        })
+        .catch(() => {
+          $q.notify({
+            color: "negative",
+            position: "top",
+            message: "Loading failed",
+            icon: "report_problem",
+          });
+        });
+    }
+    loadData();
     return {
       items: groups,
     };
