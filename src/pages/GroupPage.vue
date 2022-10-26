@@ -1,6 +1,30 @@
 <template>
   <q-page padding>
-    <GroupPost v-bind:key="item.group_id" v-for="item in items" v-bind="item" />
+    <div>
+      <q-splitter v-model="splitterModel" unit="px" style="height: 600px">
+        <template v-slot:before>
+          <div class="q-pa-md">
+            <div class="text-h4 q-mb-md">Before</div>
+            <div v-for="n in 20" :key="n" class="q-my-md">
+              {{ n }}. Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+              Quis praesentium cumque magnam odio iure quidem, quod illum
+              numquam possimus obcaecati commodi minima assumenda consectetur
+              culpa fuga nulla ullam. In, libero.
+            </div>
+          </div>
+        </template>
+
+        <template v-slot:after>
+          <div class="q-pa-md">
+            <GroupPost
+              v-bind:key="item.group_id"
+              v-for="item in items"
+              v-bind="item"
+            />
+          </div>
+        </template>
+      </q-splitter>
+    </div>
   </q-page>
 </template>
 
@@ -99,6 +123,7 @@ export default defineComponent({
     }
     loadData();
     return {
+      splitterModel: ref(150),
       items: groups,
     };
   },
