@@ -4,14 +4,23 @@
       <q-splitter v-model="splitterModel" unit="px" style="height: 600px">
         <template v-slot:before>
           <div class="q-pa-md">
-            <div class="text-h4 q-mb-md">Before</div>
-            <div v-for="n in 20" :key="n" class="q-my-md">
-              {{ n }}. Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-              Quis praesentium cumque magnam odio iure quidem, quod illum
-              numquam possimus obcaecati commodi minima assumenda consectetur
-              culpa fuga nulla ullam. In, libero.
-            </div>
+            <div class="text-h5 q-mb-md">Search</div>
           </div>
+          <q-option-group v-model="group" type="checkbox" :options="options">
+            <template v-slot:label="opt">
+              <div class="row items-center">
+                <span class="text-teal">{{ opt.label }}</span>
+              </div>
+            </template>
+          </q-option-group>
+          <q-btn
+            to="/group-edit"
+            label="Create Group"
+            rounded
+            color="primary"
+            icon="groups"
+            no-caps
+          />
         </template>
 
         <template v-slot:after>
@@ -40,7 +49,7 @@ const groups = [
     group_name: "Operating Systems 1 Midterm Practice",
     group_capacity: 8,
     group_image_url: "images/group-preview-picture-1.jpg",
-    registered: true,
+    registered: false,
     links: [
       {
         href: "/groups/1",
@@ -124,8 +133,53 @@ export default defineComponent({
     }
     loadData();
     return {
-      splitterModel: ref(150),
+      splitterModel: ref(200),
       items: groups,
+      group: ref(["op1"]),
+
+      options: [
+        {
+          value: "op1",
+          label: "Monday",
+          icon: "restaurant_menu",
+        },
+        {
+          value: "op2",
+          label: "Tuesday",
+          icon: "room_service",
+          color: "teal",
+        },
+        {
+          value: "op3",
+          label: "Wednesday",
+          icon: "photo",
+          color: "teal",
+        },
+        {
+          value: "op4",
+          label: "Thursday",
+          icon: "photo",
+          color: "teal",
+        },
+        {
+          value: "op5",
+          label: "Friday",
+          icon: "photo",
+          color: "teal",
+        },
+        {
+          value: "op6",
+          label: "Saturday",
+          icon: "photo",
+          color: "teal",
+        },
+        {
+          value: "op7",
+          label: "Sunday",
+          icon: "photo",
+          color: "teal",
+        },
+      ],
     };
   },
 });

@@ -4,6 +4,10 @@ const routes = [
     component: () => import("layouts/MainLayout.vue"),
     children: [
       { path: "", component: () => import("pages/GroupPage.vue") },
+      {
+        path: "/group-edit",
+        component: () => import("pages/GroupEditPage.vue"),
+      },
       { path: "/user", component: () => import("pages/LoginPage.vue") },
     ],
   },
