@@ -24,13 +24,12 @@
         />
 
         <q-input v-model="text" filled type="textarea"></q-input>
-        <q-toggle v-model="accept" label="Monday" />
-        <q-toggle v-model="accept" label="Tuesday" />
-        <q-toggle v-model="accept" label="Wednesday" />
-        <q-toggle v-model="accept" label="Thursday" />
-        <q-toggle v-model="accept" label="Friday" />
-        <q-toggle v-model="accept" label="Saturday" />
-        <q-toggle v-model="accept" label="Sunday" />
+        <q-toggle
+          :key="item.name"
+          v-model="item.on"
+          :label="item.name"
+          v-for="item in dayOfWeeks"
+        />
 
         <div>
           <q-btn label="Submit" type="submit" color="primary" />
@@ -70,35 +69,35 @@ export default defineComponent({
 
     const name = ref(null);
     const age = ref(null);
-    const accept = ref(false);
+    const monday = ref(false);
+    const dayOfWeeks = ref([
+      { name: "Monday", on: false },
+      { name: "Tuesday", on: true },
+      { name: "Wednesday", on: true },
+      { name: "Thursday", on: true },
+      { name: "Friday", on: true },
+      { name: "Saturday", on: true },
+      { name: "Sunday", on: true },
+    ]);
 
     return {
       name,
       age,
-      accept,
+      dayOfWeeks,
 
       onSubmit() {
-        if (accept.value !== true) {
-          $q.notify({
-            color: "red-5",
-            textColor: "white",
-            icon: "warning",
-            message: "You need to accept the license and terms first",
-          });
-        } else {
-          $q.notify({
-            color: "green-4",
-            textColor: "white",
-            icon: "cloud_done",
-            message: "Submitted",
-          });
-        }
+        console.log(dayOfWeeks);
+        $q.notify({
+          color: "green-4",
+          textColor: "white",
+          icon: "cloud_done",
+          message: "Submitted",
+        });
       },
 
       onReset() {
         name.value = null;
         age.value = null;
-        accept.value = false;
       },
     };
   },
