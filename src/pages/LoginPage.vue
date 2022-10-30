@@ -2,24 +2,18 @@
   <q-page padding>
     <!-- content -->
     <div class="row login-page">
-      <div class="col-3 div-3">1</div>
       <div class="col-auto">
-        <q-card dark bordered class="bg-grey-9 my-card">
+        <q-card bordered class="bg-white-9 my-card fixed-center">
           <q-card-section>
-            <div class="text-h6">Our Changing Planet</div>
-            <div class="text-subtitle2">by John Doe</div>
+            <div class="text-h6">Login</div>
+            <div class="text-subtitle2">by DNYFs</div>
           </q-card-section>
 
-          <q-separator dark inset />
+          <q-separator inset />
 
-          <q-card-section> Hello!!!!! </q-card-section>
+          <q-card-section><LoginForm /></q-card-section>
         </q-card>
       </div>
-      <!--
-     we have 3 children, so equivalent
-     to above would be to use `col-4`
-     on each of the children
-  -->
     </div>
   </q-page>
 </template>
@@ -30,10 +24,19 @@
 .div-3 {
   background-color: rgb(255, 0, 0);
 }
+.my-card {
+  width: 100%;
+  max-width: 400px;
+  display: inline-block;
+}
 </style>
 
 <script>
+import LoginForm from "src/components/LoginForm.vue";
 export default {
-  // name: 'PageName',
+  name: "LoginPage",
+  components: {
+    LoginForm,
+  },
 };
 </script>
