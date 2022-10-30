@@ -23,7 +23,14 @@
           ]"
         />
 
-        <q-input v-model="text" filled type="textarea"></q-input>
+        <!-- <q-input v-model="text" filled type="textarea"></q-input> -->
+        <q-editor
+          v-model="text"
+          :definitions="{
+            bold: { label: 'Bold', icon: null, tip: 'My bold tooltip' },
+          }"
+        />
+
         <q-toggle
           :key="item.name"
           v-model="item.on"
@@ -34,7 +41,8 @@
         <div>
           <q-btn label="Submit" type="submit" color="primary" />
           <q-btn
-            label="Reset"
+            to="/"
+            label="Back"
             type="reset"
             color="primary"
             flat
@@ -44,14 +52,7 @@
       </q-form>
     </div>
     Description:
-    <div class="q-pa-md q-gutter-sm">
-      <q-editor
-        v-model="editor"
-        :definitions="{
-          bold: { label: 'Bold', icon: null, tip: 'My bold tooltip' },
-        }"
-      />
-    </div>
+    <div class="q-pa-md q-gutter-sm"></div>
   </q-page>
 </template>
 
@@ -69,7 +70,7 @@ export default defineComponent({
 
     const name = ref(null);
     const age = ref(null);
-    const monday = ref(false);
+    const text = ref("");
     const dayOfWeeks = ref([
       { name: "Monday", on: false },
       { name: "Tuesday", on: true },
@@ -84,6 +85,7 @@ export default defineComponent({
       name,
       age,
       dayOfWeeks,
+      text,
 
       onSubmit() {
         console.log(dayOfWeeks);
@@ -96,6 +98,7 @@ export default defineComponent({
       },
 
       onReset() {
+        console.log("Am I called?");
         name.value = null;
         age.value = null;
       },
