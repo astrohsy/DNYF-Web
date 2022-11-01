@@ -1,26 +1,45 @@
 <template>
   <q-page padding>
     <div>
-      <q-splitter v-model="splitterModel" unit="px" style="height: 600px">
+      <q-splitter v-model="splitterModel" unit="px" style="height: 90%">
         <template v-slot:before>
-          <div class="q-pa-md">
-            <div class="text-h5 q-mb-md">Search</div>
+          <div class="q-pa-sm">
+            <div class="q-pa-md">
+              <div class="text-h5 q-mb-md">Search</div>
+            </div>
+            <q-input
+              v-model="search"
+              debounce="500"
+              filled
+              placeholder="Search by title"
+            >
+              <template v-slot:append>
+                <q-icon name="search" />
+              </template>
+            </q-input>
+            <div class="q-pa-md">
+              <q-option-group
+                v-model="group"
+                type="checkbox"
+                :options="options"
+              >
+                <template v-slot:label="opt">
+                  <div class="row items-center">
+                    <span class="text-teal">{{ opt.label }}</span>
+                  </div>
+                </template>
+              </q-option-group>
+            </div>
+
+            <q-btn
+              to="/group-edit"
+              label="Create Group"
+              rounded
+              color="primary"
+              icon="groups"
+              no-caps
+            />
           </div>
-          <q-option-group v-model="group" type="checkbox" :options="options">
-            <template v-slot:label="opt">
-              <div class="row items-center">
-                <span class="text-teal">{{ opt.label }}</span>
-              </div>
-            </template>
-          </q-option-group>
-          <q-btn
-            to="/group-edit"
-            label="Create Group"
-            rounded
-            color="primary"
-            icon="groups"
-            no-caps
-          />
         </template>
 
         <template v-slot:after>
@@ -133,7 +152,7 @@ export default defineComponent({
     }
     loadData();
     return {
-      splitterModel: ref(200),
+      splitterModel: ref(250),
       items: groups,
       group: ref(["op1"]),
 

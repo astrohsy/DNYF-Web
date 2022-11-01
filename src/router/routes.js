@@ -8,7 +8,12 @@ const routes = [
         path: "/group-edit",
         component: () => import("pages/GroupEditPage.vue"),
       },
-      { path: "/user", component: () => import("pages/LoginPage.vue") },
+      {
+        path: "/group-detail",
+        component: () => import("pages/GroupDetailPage.vue"),
+      },
+      { path: "/login", component: () => import("pages/LoginPage.vue") },
+      { path: "/signup", component: () => import("pages/SignupPage.vue") },
     ],
   },
   // Always leave this as last one,

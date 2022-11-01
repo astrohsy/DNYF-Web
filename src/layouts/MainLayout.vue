@@ -4,10 +4,10 @@
       <q-toolbar>
         <q-btn flat dense round icon="menu" aria-label="Menu" />
 
-        <q-toolbar-title> DNYF App </q-toolbar-title>
+        <q-toolbar-title> DNYF </q-toolbar-title>
         <q-btn-group rounded>
           <q-btn
-            to="/user"
+            to="/login"
             label="Profile"
             rounded
             color="primary"
