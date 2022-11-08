@@ -76,27 +76,13 @@ export default defineComponent({
   setup() {
     const $q = useQuasar();
     const data = ref(null);
-    function loadData() {
-      api
-        .get("/breeds/image/random")
-        .then((response) => {
-          data.value = response.data;
-          console.log(data.value);
-        })
-        .catch(() => {
-          $q.notify({
-            color: "negative",
-            position: "top",
-            message: "Loading failed",
-            icon: "report_problem",
-          });
-        });
-    }
+    function loadData() {}
     loadData();
     return {
       splitterModel: ref(250),
       items: groups,
       group: ref(["op1"]),
+      search: ref(null),
 
       options: [
         {
