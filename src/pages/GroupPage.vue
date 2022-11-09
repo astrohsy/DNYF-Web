@@ -17,19 +17,6 @@
                 <q-icon name="search" />
               </template>
             </q-input>
-            <div class="q-pa-md">
-              <q-option-group
-                v-model="group"
-                type="checkbox"
-                :options="options"
-              >
-                <template v-slot:label="opt">
-                  <div class="row items-center">
-                    <span class="text-teal">{{ opt.label }}</span>
-                  </div>
-                </template>
-              </q-option-group>
-            </div>
 
             <q-btn
               to="/group-edit"
@@ -41,12 +28,11 @@
             />
           </div>
         </template>
-
         <template v-slot:after>
           <div class="q-pa-md">
             <GroupPost
               v-bind:key="item.group_id"
-              v-for="item in items"
+              v-for="item in groupStore.groups"
               v-bind="item"
             />
           </div>
@@ -57,13 +43,10 @@
 </template>
 
 <script>
-import { fetchGroup } from "src/data/Group";
 import { defineComponent, ref } from "vue";
 import GroupPost from "src/components/GroupPost.vue";
-import { api } from "boot/axios";
+import { useGroupStore } from "stores/group";
 import { useQuasar } from "quasar";
-
-const groups = fetchGroup();
 const data = ref(null);
 
 export default defineComponent({
@@ -74,60 +57,17 @@ export default defineComponent({
   },
 
   setup() {
+    const groupStore = useGroupStore();
     const $q = useQuasar();
-    const data = ref(null);
-    function loadData() {}
-    loadData();
     return {
+      groupStore,
       splitterModel: ref(250),
-      items: groups,
       group: ref(["op1"]),
       search: ref(null),
-
-      options: [
-        {
-          value: "op1",
-          label: "Monday",
-          icon: "restaurant_menu",
-        },
-        {
-          value: "op2",
-          label: "Tuesday",
-          icon: "room_service",
-          color: "teal",
-        },
-        {
-          value: "op3",
-          label: "Wednesday",
-          icon: "photo",
-          color: "teal",
-        },
-        {
-          value: "op4",
-          label: "Thursday",
-          icon: "photo",
-          color: "teal",
-        },
-        {
-          value: "op5",
-          label: "Friday",
-          icon: "photo",
-          color: "teal",
-        },
-        {
-          value: "op6",
-          label: "Saturday",
-          icon: "photo",
-          color: "teal",
-        },
-        {
-          value: "op7",
-          label: "Sunday",
-          icon: "photo",
-          color: "teal",
-        },
-      ],
     };
+  },
+  mounted() {
+    this.groupStore.fetchGroups();
   },
 });
 </script>
