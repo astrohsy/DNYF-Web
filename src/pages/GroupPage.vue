@@ -19,7 +19,7 @@
             </q-input>
 
             <q-btn
-              to="/group-edit"
+              @click="groupStore.goToGroupEdit()"
               label="Create Group"
               rounded
               color="primary"
