@@ -36,11 +36,6 @@
             Looking for people to practice midterm together!
           </div>
         </q-card-section>
-        <div>
-          <q-badge rounded color="red" label="Monday" class="q-ma-xs" />
-          <q-badge rounded color="blue" label="Wednesday" class="q-ma-xs" />
-          <q-badge rounded color="orange" label="Wednesday" class="q-ma-xs" />
-        </div>
       </q-card-section>
     </q-card-section>
 
@@ -52,7 +47,12 @@
     </q-card-actions>
     <q-card-actions v-else>
       <q-btn flat color="primary">Join</q-btn>
-      <q-btn flat color="gray" to="/group-detail">Show more</q-btn>
+      <q-btn
+        flat
+        color="gray"
+        :to="{ name: 'group-detail', params: { id: group_id } }"
+        >Show more</q-btn
+      >
     </q-card-actions>
   </q-card>
 </template>

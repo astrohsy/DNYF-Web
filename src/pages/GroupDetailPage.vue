@@ -32,7 +32,9 @@
   </div>
 </template>
 <script>
+import { defineComponent, ref } from "vue";
 import { fetchGroupDetail } from "src/data/GroupDetail";
+import { useGroupStore } from "stores/group";
 const columns = [
   {
     name: "name",
@@ -56,12 +58,26 @@ const columns = [
 
 const rows = fetchGroupDetail();
 
-export default {
+export default defineComponent({
+  name: "GroupPost",
+  props: {
+    group_id: {
+      type: Number,
+      required: true,
+    },
+  },
   setup() {
+    const groupStore = useGroupStore();
     return {
+      groupStore,
       columns,
       rows,
     };
   },
-};
+  mounted() {
+    const groupId = this.$route.params.id;
+    console.log(groupId);
+    this.groupStore.fetchGroup(groupId);
+  },
+});
 </script>

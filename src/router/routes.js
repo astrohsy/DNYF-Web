@@ -9,7 +9,8 @@ const routes = [
         component: () => import("pages/GroupEditPage.vue"),
       },
       {
-        path: "/group-detail",
+        path: "/groups/:id",
+        name: "group-detail",
         component: () => import("pages/GroupDetailPage.vue"),
       },
       { path: "/login", component: () => import("pages/LoginPage.vue") },
