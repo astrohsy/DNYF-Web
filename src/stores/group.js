@@ -25,7 +25,27 @@ export const useGroupStore = defineStore("group", {
         const group = response.data.data;
 
         console.log(`/groups/{id}: ${JSON.stringify(group)}`);
+        const members = await this.fetchLinkedData(group.links, "get_members");
+        console.log(members);
+        const membersWithUserInfo = await Promise.all(
+          members.map((x) => {
+            return new Promise(async (resolve) =>
+              this.fetchLinkedData(x.links, "get_user_info")
+            );
+          })
+        );
+        group["members"] = membersWithUserInfo;
+        console.log(membersWithUserInfo);
         this.group = group;
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    async fetchLinkedData(links, rel, resolve) {
+      try {
+        const link = links.filter((x) => x.rel === rel)[0];
+        const response = await api.get(link.href);
+        return response.data.data;
       } catch (e) {
         console.log(e);
       }

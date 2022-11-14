@@ -50,9 +50,14 @@
       <q-btn
         flat
         color="gray"
-        :to="{ name: 'group-detail', params: { id: group_id } }"
-        >Show more</q-btn
+        :to="{
+          name: 'group-detail',
+          params: { id: group_id },
+          props: { links },
+        }"
       >
+        Show more
+      </q-btn>
     </q-card-actions>
   </q-card>
 </template>
@@ -81,12 +86,8 @@ export default defineComponent({
       type: Number,
       required: true,
     },
-    group_image_url: {
-      type: String,
-      required: false,
-    },
-    registered: {
-      type: Boolean,
+    links: {
+      type: Object,
       required: false,
     },
   },

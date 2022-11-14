@@ -69,5 +69,8 @@ export default defineComponent({
   mounted() {
     this.groupStore.fetchGroups();
   },
+  created() {
+    //this.groupStore.fetchGroups();
+  },
 });
 </script>
