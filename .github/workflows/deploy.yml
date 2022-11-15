@@ -17,7 +17,6 @@ jobs:
         with:
           node-version: 16
       - run: npm i -g @quasar/cli
-      - run: npm init quasar
       - run: quasar build
   upload:
     runs-on: ubuntu-latest
