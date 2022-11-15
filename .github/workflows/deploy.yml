@@ -15,14 +15,14 @@ jobs:
       - uses: actions/checkout@v3
       - name: Setup Node env
         uses: actions/setup-node@v3
-          with:
-            node-version: 16
+        with:
+          node-version: 16
         run: npx quasar build
   upload:
     - uses: actions/checkout@v3
       uses: actions/upload-artifact@v3
-        with:
-          name: hello-world
-          path: hello/world.txt
+      with:
+        name: hello-world
+        path: hello/world.txt
       run: mkdir -p hello
       run: echo hello > hello/world.txt
