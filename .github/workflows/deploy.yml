@@ -30,3 +30,13 @@ jobs:
     name: Upload
     steps:
       - uses: actions/checkout@v3
+      - name: Upload S3
+        uses: shallwefootball/s3-upload-action@master
+        id: S3
+        with:
+          aws_key_id: ${{secrets.AWS_KEY_ID}}
+          aws_secret_access_key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+          aws_bucket: dnyf-web-app
+          source_dir: /test
+      - name: Link To Report
+        run: echo "https://s3.amazonaws.com/bucketName/${{steps.S3.outputs.object_key}}/index.html"
