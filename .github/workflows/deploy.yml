@@ -23,7 +23,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: dynf-frontend-app
-          path: dist/world.txt
+          path: dist/
           retention-days: 3
   upload:
     runs-on: ubuntu-latest
