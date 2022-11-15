@@ -19,11 +19,14 @@ jobs:
           node-version: 16
       - run: npx quasar build
   upload:
-    - uses: actions/checkout@v3
-    - run: mkdir -p hello
-    - run: echo hello > hello/world.txt
-    - name: Upload
-      uses: actions/upload-artifact@v3
-      with:
-        name: hello-world
-        path: hello/world.txt
+    name: Upload
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: mkdir -p hello
+      - run: echo hello > hello/world.txt
+      - name: Upload
+        uses: actions/upload-artifact@v3
+        with:
+          name: hello-world
+          path: hello/world.txt
