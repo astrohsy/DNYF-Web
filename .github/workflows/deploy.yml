@@ -20,9 +20,10 @@ jobs:
         run: npx quasar build
   upload:
     - uses: actions/checkout@v3
+    - run: mkdir -p hello
+    - run: echo hello > hello/world.txt
+    - name: Upload
       uses: actions/upload-artifact@v3
       with:
         name: hello-world
         path: hello/world.txt
-      run: mkdir -p hello
-      run: echo hello > hello/world.txt
