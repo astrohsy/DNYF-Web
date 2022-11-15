@@ -16,19 +16,17 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
-      - run: ls
       - run: npm i -g @quasar/cli
       - run: npm install
       - run: quasar build
+      - name: Upload Built App
+        uses: actions/upload-artifact@v3
+        with:
+          name: dynf-frontend-app
+          path: dist/world.txt
+          retention-days: 3
   upload:
     runs-on: ubuntu-latest
     name: Upload
     steps:
       - uses: actions/checkout@v3
-      - run: mkdir -p hello
-      - run: echo hello > hello/world.txt
-      - name: Upload
-        uses: actions/upload-artifact@v3
-        with:
-          name: hello-world
-          path: hello/world.txt
