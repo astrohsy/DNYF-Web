@@ -10,7 +10,6 @@ on:
 jobs:
   build:
     name: Build
-    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - name: Setup Node env
@@ -20,7 +19,6 @@ jobs:
       - run: npx quasar build
   upload:
     name: Upload
-    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - run: mkdir -p hello
