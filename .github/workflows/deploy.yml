@@ -1,0 +1,27 @@
+name: Deploy DNYF Web to S3
+runs-on: ubuntu-latest
+on:
+  push:
+    branches:
+      - main
+      - 6-setup-github-actions-to-deploy-web-ui-automatically
+
+  jobs:
+    build:
+      name: Build
+      runs-on: ubuntu-latest
+      steps:
+        - name: Setup Node env
+        - uses: actions/checkout@v3
+        - uses: actions/setup-node@v3
+          with:
+            node-version: 16
+        - run: npx quasar build
+  upload:
+    - run: mkdir -p hello
+    - run: echo hello > hello/world.txt
+
+    - uses: actions/upload-artifact@v3
+      with:
+        name: hello-world
+        path: hello/world.txt
