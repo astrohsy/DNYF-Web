@@ -1,6 +1,6 @@
 # DYNF Web Application
 
-![Published Link](https://drxx9r5b2rz9x.cloudfront.net)
+[Published Application on AWS Cloud Front](https://drxx9r5b2rz9x.cloudfront.net)
 
 ## Install the dependencies
 
