@@ -1,6 +1,12 @@
-import { route } from 'quasar/wrappers'
-import { createRouter, createMemoryHistory, createWebHistory, createWebHashHistory } from 'vue-router'
-import routes from './routes'
+import { route } from "quasar/wrappers";
+import {
+  createRouter,
+  createMemoryHistory,
+  createWebHistory,
+  createWebHashHistory,
+} from "vue-router";
+import { useAuthStore } from "src/stores/auth";
+import routes from "./routes";
 
 /*
  * If not building with SSR mode, you can
@@ -11,10 +17,12 @@ import routes from './routes'
  * with the Router instance.
  */
 
-export default route(function (/* { store, ssrContext } */) {
+export default route(function (store /* { store, ssrContext } */) {
   const createHistory = process.env.SERVER
     ? createMemoryHistory
-    : (process.env.VUE_ROUTER_MODE === 'history' ? createWebHistory : createWebHashHistory)
+    : process.env.VUE_ROUTER_MODE === "history"
+    ? createWebHistory
+    : createWebHashHistory;
 
   const Router = createRouter({
     scrollBehavior: () => ({ left: 0, top: 0 }),
@@ -23,8 +31,26 @@ export default route(function (/* { store, ssrContext } */) {
     // Leave this as is and make changes in quasar.conf.js instead!
     // quasar.conf.js -> build -> vueRouterMode
     // quasar.conf.js -> build -> publicPath
-    history: createHistory(process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE)
-  })
+    history: createHistory(
+      process.env.MODE === "ssr" ? void 0 : process.env.VUE_ROUTER_BASE
+    ),
+  });
 
-  return Router
-})
+  const userStore = useAuthStore();
+
+  Router.beforeEach((to, from, next) => {
+    console.log(to, from, userStore.isLogined);
+    if (
+      to.matched.some((record) => record.meta.requiresAuth) &&
+      !userStore.isLogined
+    ) {
+      next({ path: "/login", query: { next: to.fullPath } });
+    } else if (to.path === "/login" && userStore.isLogined) {
+      next({ path: "/" });
+    } else {
+      next();
+    }
+  });
+
+  return Router;
+});

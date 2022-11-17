@@ -70,7 +70,7 @@ export default defineComponent({
     this.groupStore.fetchGroups();
   },
   created() {
-    //this.groupStore.fetchGroups();
+    this.groupStore.fetchGroups();
   },
 });
 </script>

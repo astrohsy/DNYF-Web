@@ -1,9 +1,9 @@
 <template>
   <div class="q-pa-md" style="max-width: 400px">
-    <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
+    <q-form class="q-gutter-md" @submit="handleSignIn">
       <q-input
         filled
-        v-model="name"
+        v-model="username"
         label="Your ID *"
         hint="Username"
         lazy-rules
@@ -13,7 +13,7 @@
       <q-input
         filled
         type="password"
-        v-model="age"
+        v-model="password"
         label="Your Password *"
         hint="Password"
         lazy-rules
@@ -23,32 +23,37 @@
       <div>
         <q-btn label="Sign In" type="submit" color="primary" />
         <q-btn to="/signup" label="Sign Up" type="reset" class="q-ml-sm" />
-        <q-btn
-          label="Cancel"
-          type="reset"
-          color="primary"
-          flat
-          class="q-ml-sm float-right"
-        />
       </div>
     </q-form>
   </div>
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
+import { useAuthStore } from "src/stores/auth";
+import { useQuasar } from "quasar";
+import { route } from "quasar/wrappers";
+const authStore = useAuthStore();
 
 export default defineComponent({
   name: "LoginForm",
-  props: {
-    username: {
-      type: String,
-      required: true,
+  methods: {
+    handleSignIn() {
+      authStore.requestLogin();
+      this.$router.push("/");
     },
-    password: {
-      type: String,
-      required: true,
-    },
+  },
+  setup() {
+    const $q = useQuasar();
+
+    var username = ref(null);
+    var password = ref(null);
+
+    return {
+      authStore,
+      username,
+      password,
+    };
   },
 });
 </script>

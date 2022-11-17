@@ -33,10 +33,20 @@
 
 <script>
 import LoginForm from "src/components/LoginForm.vue";
+import { useAuthStore } from "src/stores/auth";
+import { useQuasar } from "quasar";
+
 export default {
   name: "LoginPage",
   components: {
     LoginForm,
+  },
+  setup() {
+    const authStore = useAuthStore();
+    const $q = useQuasar();
+    return {
+      authStore,
+    };
   },
 };
 </script>

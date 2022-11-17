@@ -1,7 +1,7 @@
 <template>
   <q-card class="my-card">
     <q-card-section horizontal>
-      <q-img :src="group_image_url" style="width: 200px" />
+      <q-img src="images/group-preview-picture-1.jpg" style="width: 200px" />
       <q-card-section style="width: 100%">
         <q-card-section>
           <q-btn
