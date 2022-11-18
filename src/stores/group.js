@@ -27,6 +27,7 @@ export const useGroupStore = defineStore("group", {
         console.log(`/groups/{id}: ${JSON.stringify(group)}`);
         const members = await this.fetchLinkedData(group.links, "get_members");
         console.log(members);
+        
         const membersWithUserInfo = await Promise.all(
           members.map((x) => {
             return new Promise(async (resolve) =>

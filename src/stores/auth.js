@@ -3,19 +3,23 @@ import { api } from "src/boot/axios";
 
 export const useAuthStore = defineStore("auth", {
   state: () => ({
-    isLogined: false,
     username: null,
   }),
-  getters: {},
+  getters: {
+    isLogined: () => {
+      return localStorage.username ? true : false;
+    },
+  },
   actions: {
     async requestLogin() {
-      this.isLogined = true;
-      this.username = "bob";
-      console.log(this);
+      localStorage.setItem("username", this.username);
+      settimeout(500, () => {
+        this.username = "bob";
+      });
     },
     async requestLogout() {
-      this.isLogined = false;
       this.username = null;
+      localStorage.removeItem("username");
     },
   },
 });
