@@ -33,18 +33,20 @@ import { defineComponent, ref } from "vue";
 import { useAuthStore } from "src/stores/auth";
 import { useQuasar } from "quasar";
 import { route } from "quasar/wrappers";
-const authStore = useAuthStore();
 
 export default defineComponent({
   name: "LoginForm",
   methods: {
     handleSignIn() {
-      authStore.requestLogin();
-      this.$router.push("/");
+      this.authStore.requestLogin(this.username, this.password);
+      console.log(this.$router.currentRoute);
+      this.$router.push({ path: "/" });
+      console.log(this.$router.currentRoute);
     },
   },
   setup() {
     const $q = useQuasar();
+    const authStore = useAuthStore();
 
     var username = ref(null);
     var password = ref(null);

@@ -9,11 +9,12 @@
           v-model="model"
           flat
           stretch
-          toggle-color="yellow"
+          toggle-color="secondary"
           :options="options"
         />
         <q-space> </q-space>
-        fef
+        Hi {{ authStore.getUsername }}!
+        <q-btn to="/" @click="handleSignOut">Logout</q-btn>
       </q-toolbar>
     </q-header>
     <q-page-container>
@@ -24,7 +25,9 @@
 
 <script>
 import { defineComponent, ref } from "vue";
-//import EssentialLink from "components/EssentialLink.vue";
+import { useAuthStore } from "stores/auth";
+import { route } from "quasar/wrappers";
+const authStore = useAuthStore();
 
 export default defineComponent({
   name: "MainLayout",
@@ -32,7 +35,7 @@ export default defineComponent({
   components: {
     //EssentialLink,
   },
-
+  methods: {},
   setup() {
     const redirect = (e, go) => {
       console.log("hhihihihi");
@@ -49,9 +52,20 @@ export default defineComponent({
         });
     };
 
+    function handleSignOut(e, go) {
+      e.preventDefault();
+      authStore.requestLogout();
+      setTimeout(() => {
+        console.log("navigating as promised 2s ago");
+        go({ to: "/login" });
+      }, 100);
+    }
+
     return {
       redirect,
       model: ref("one"),
+      authStore,
+      handleSignOut,
 
       options: [
         { label: "Home", value: "home" },

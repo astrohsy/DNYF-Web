@@ -6,19 +6,22 @@ export const useAuthStore = defineStore("auth", {
     username: null,
   }),
   getters: {
-    isLogined: () => {
+    isLogined: (state) => () => {
+      console.log(111);
+      console.log(localStorage.username);
       return localStorage.username ? true : false;
+    },
+    getUsername: () => {
+      return localStorage.username;
     },
   },
   actions: {
-    async requestLogin() {
+    async requestLogin(id, password) {
+      this.username = id;
       localStorage.setItem("username", this.username);
-      settimeout(500, () => {
-        this.username = "bob";
-      });
     },
     async requestLogout() {
-      this.username = null;
+      //this.username = null;
       localStorage.removeItem("username");
     },
   },

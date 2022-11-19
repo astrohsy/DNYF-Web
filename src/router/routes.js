@@ -4,7 +4,8 @@ const routes = [
     component: () => import("layouts/MainLayout.vue"),
     children: [
       {
-        path: "",
+        path: "/",
+        name: "group",
         component: () => import("pages/GroupPage.vue"),
         meta: { requiresAuth: true },
       },

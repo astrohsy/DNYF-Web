@@ -39,15 +39,21 @@ export default route(function (store /* { store, ssrContext } */) {
   const userStore = useAuthStore();
 
   Router.beforeEach((to, from, next) => {
+    console.log("=========");
     console.log(to, from, userStore.isLogined);
     if (
       to.matched.some((record) => record.meta.requiresAuth) &&
-      !userStore.isLogined
+      !userStore.isLogined()
     ) {
+      console.log(111111111, userStore.isLogined);
+      console.log();
       next({ path: "/login", query: { next: to.fullPath } });
-    } else if (to.path === "/login" && userStore.isLogined) {
+    } else if (to.path === "/login" && userStore.isLogined()) {
+      console.log(2222);
+      next({ path: "/login", query: { next: to.fullPath } });
       next({ path: "/" });
     } else {
+      console.log(3333, userStore.isLogined());
       next();
     }
   });
