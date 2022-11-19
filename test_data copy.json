@@ -1,0 +1,17 @@
+{
+  "studentInfo": {
+    "lastname": "Ferguson",
+    "uni": "ddf9"
+  },
+  "projectInfo": {
+    "courseCallNo": "123"
+  },
+  "contacts": {
+    "phone": "929-xxxx-xxxx",
+    "email": "ddf@c.uni"
+  }
+}
+
+I don't wanna let UI to know Microservices
+
+

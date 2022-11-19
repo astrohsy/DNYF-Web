@@ -19,6 +19,12 @@ const routes = [
         component: () => import("pages/GroupDetailPage.vue"),
         meta: { requiresAuth: true },
       },
+    ],
+  },
+  {
+    path: "/blank",
+    component: () => import("layouts/BlankLayout.vue"),
+    children: [
       { path: "/login", component: () => import("pages/LoginPage.vue") },
       { path: "/signup", component: () => import("pages/SignupPage.vue") },
     ],
