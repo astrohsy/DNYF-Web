@@ -1,28 +1,19 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
-      <q-toolbar>
+      <q-toolbar class="bg-brand">
         <q-btn flat dense round icon="menu" aria-label="Menu" />
 
         <q-toolbar-title> DNYF </q-toolbar-title>
-        <q-btn-group rounded>
-          <q-btn
-            to="/login"
-            label="Profile"
-            rounded
-            color="primary"
-            icon="verified_user"
-            no-caps
-          />
-          <q-btn
-            to="/"
-            label="Group"
-            rounded
-            color="primary"
-            icon="groups"
-            no-caps
-          />
-        </q-btn-group>
+        <q-btn-toggle
+          v-model="model"
+          flat
+          stretch
+          toggle-color="yellow"
+          :options="options"
+        />
+        <q-space> </q-space>
+        fef
       </q-toolbar>
     </q-header>
     <q-page-container>
@@ -60,6 +51,12 @@ export default defineComponent({
 
     return {
       redirect,
+      model: ref("one"),
+
+      options: [
+        { label: "Home", value: "home" },
+        { label: "Profile", value: "profile" },
+      ],
     };
   },
 });

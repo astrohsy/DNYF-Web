@@ -88,6 +88,11 @@ module.exports = configure(function (ctx) {
         notify: {
           /* look at QuasarConfOptions from the API card */
         },
+        brand: {
+          primary: "#132448",
+          secondary: "#c4ced3",
+          // ...
+        },
       },
 
       // iconSet: 'material-icons', // Quasar icon set
