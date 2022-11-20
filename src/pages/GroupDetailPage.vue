@@ -77,7 +77,6 @@ export default defineComponent({
   mounted() {
     console.log(this.props);
     console.log(this.$route);
-    console.log(groupId);
     const groupId = this.$route.params.id;
     this.groupStore.fetchGroup(groupId);
   },
