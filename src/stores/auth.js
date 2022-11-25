@@ -16,6 +16,9 @@ export const useAuthStore = defineStore("auth", {
     },
   },
   actions: {
+    async requestSignup(id, password) {
+      console.log("Signup!!!", id, password);
+    },
     async requestLogin(id, password) {
       this.username = id;
       localStorage.setItem("username", this.username);

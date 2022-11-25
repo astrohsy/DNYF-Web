@@ -1,9 +1,9 @@
 <template>
   <div class="q-pa-md" style="max-width: 400px">
-    <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
+    <q-form @submit="handleSignUp" @reset="onReset" class="q-gutter-md">
       <q-input
         filled
-        v-model="name"
+        v-model="id"
         label="Your ID *"
         hint="Username"
         lazy-rules
@@ -13,7 +13,7 @@
       <q-input
         filled
         type="password"
-        v-model="age"
+        v-model="password"
         label="Your Password *"
         hint="Password"
         lazy-rules
@@ -23,7 +23,7 @@
       <q-input
         filled
         type="password"
-        v-model="age"
+        v-model="password_confirm"
         label="Your Confrim Password *"
         hint="Confirm Password"
         lazy-rules
@@ -51,7 +51,7 @@
       />
 
       <div>
-        <q-btn label="Sign Up" type="reset" class="q-ml-sm" />
+        <q-btn label="Sign Up" type="submit" class="q-ml-sm" />
         <q-btn
           to="/login"
           label="Cancel"
@@ -66,19 +66,38 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { useAuthStore } from "src/stores/auth";
+import { defineComponent, ref } from "vue";
+import { useQuasar } from "quasar";
+const authStore = useAuthStore();
+const $q = useQuasar();
 
 export default defineComponent({
-  name: "LoginForm",
-  props: {
-    username: {
-      type: String,
-      required: true,
+  name: "SignupForm",
+  methods: {
+    async handleSignUp() {
+      this.authStore.requestSignup(this.username, this.password);
+
+      this.$q.notify({
+        message: "Sign Up Completed!!!",
+        caption: "Welcome to DNYF!!",
+        color: "primary",
+        position: "top",
+      });
+      //this.$router.push({ path: "/" });
+      console.log(this.$router.currentRoute);
     },
-    password: {
-      type: String,
-      required: true,
-    },
+  },
+  setup() {
+    return {
+      authStore,
+      $q,
+      id: ref(null),
+      password: ref(null),
+      password_confirm: ref(null),
+      tel: ref(null),
+      email: ref(null),
+    };
   },
 });
 </script>
