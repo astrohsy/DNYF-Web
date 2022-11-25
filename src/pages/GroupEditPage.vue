@@ -17,12 +17,16 @@
           <q-input
             filled
             type="number"
-            v-model="age"
+            v-model="capacity"
             label="Group Capacity *"
             lazy-rules
             :rules="[
-              (val) => (val !== null && val !== '') || 'Please type your age',
-              (val) => (val > 0 && val < 100) || 'Please type a real age',
+              (val) =>
+                (val !== null && val !== '') ||
+                'Please type your capacity in integer',
+              (val) =>
+                (val > 0 && val < 1000) ||
+                'Please type a valid capacity (< 1000)',
             ]"
           />
 
@@ -59,51 +63,49 @@
 </template>
 
 <script>
+import { useGroupStore } from "src/stores/group";
 import { defineComponent, ref } from "vue";
 import { useQuasar } from "quasar";
 
-const data = ref(null);
+const groupStore = useGroupStore();
 
 export default defineComponent({
   name: "GroupEditPage",
+  methods: {
+    async onSubmit() {
+      this.$q.notify({
+        color: "green-4",
+        textColor: "white",
+        icon: "cloud_done",
+        message: "Submitted",
+      });
 
+      this.groupStore.createGroup({
+        name: this.name,
+        capacity: parseInt(this.capacity),
+        text: this.text,
+      });
+    },
+    onReset() {
+      console.log("onReset called");
+      this.name.value = null;
+      this.capacity.value = null;
+      this.text.value = null;
+    },
+  },
   setup() {
     const $q = useQuasar();
 
     const name = ref(null);
-    const age = ref(null);
-    const text = ref("");
-    const dayOfWeeks = ref([
-      { name: "Monday", on: false },
-      { name: "Tuesday", on: true },
-      { name: "Wednesday", on: true },
-      { name: "Thursday", on: true },
-      { name: "Friday", on: true },
-      { name: "Saturday", on: true },
-      { name: "Sunday", on: true },
-    ]);
+    const capacity = ref(null);
+    const text = ref(null);
 
     return {
+      $q,
       name,
-      age,
-      dayOfWeeks,
+      capacity,
       text,
-
-      onSubmit() {
-        console.log(dayOfWeeks);
-        $q.notify({
-          color: "green-4",
-          textColor: "white",
-          icon: "cloud_done",
-          message: "Submitted",
-        });
-      },
-
-      onReset() {
-        console.log("Am I called?");
-        name.value = null;
-        age.value = null;
-      },
+      groupStore,
     };
   },
 });
