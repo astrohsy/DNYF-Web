@@ -38,13 +38,6 @@
             }"
           />
 
-          <q-toggle
-            :key="item.name"
-            v-model="item.on"
-            :label="item.name"
-            v-for="item in dayOfWeeks"
-          />
-
           <div>
             <q-btn label="Submit" type="submit" color="primary" />
             <q-btn
@@ -81,9 +74,9 @@ export default defineComponent({
       });
 
       this.groupStore.createGroup({
-        name: this.name,
-        capacity: parseInt(this.capacity),
-        text: this.text,
+        group_name: this.name,
+        group_capacity: parseInt(this.capacity),
+        //text: this.text,
       });
     },
     onReset() {
