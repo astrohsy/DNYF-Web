@@ -11,7 +11,7 @@ export const useGroupStore = defineStore("group", {
     async createGroup(data) {
       try {
         console.log(data);
-        const response = await api.post("/groups/", data);
+        const response = await api.post("/groups", data);
         const groups = response.data.data;
         console.log(`/groups: ${JSON.stringify(groups)}`);
       } catch (e) {
