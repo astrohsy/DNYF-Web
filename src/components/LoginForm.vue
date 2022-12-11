@@ -21,6 +21,7 @@
       />
       <pre>
       <code>{{ user }}</code>
+      <q-btn @click="group">fefe</q-btn>
     </pre>
 
       <div>
@@ -34,6 +35,7 @@
 <script>
 import { defineComponent, ref } from "vue";
 import { useAuthStore } from "src/stores/auth";
+import { useGroupStore } from "src/stores/group";
 import { useQuasar } from "quasar";
 import { route } from "quasar/wrappers";
 import { useAuth0 } from "@auth0/auth0-vue";
@@ -51,7 +53,9 @@ export default defineComponent({
   setup() {
     const $q = useQuasar();
     const authStore = useAuthStore();
-    const { loginWithRedirect, user, isAuthenticated } = useAuth0();
+    const groupStore = useGroupStore();
+    const { loginWithRedirect, user, isAuthenticated, getAccessTokenSilently } =
+      useAuth0();
 
     var username = ref(null);
     var password = ref(null);
@@ -62,6 +66,11 @@ export default defineComponent({
       password,
       login: () => {
         loginWithRedirect();
+      },
+      group: async () => {
+        const a = await getAccessTokenSilently({ detailedResponse: true });
+        const config = { headers: { Authorization: `Bearer ${a.id_token}` } };
+        groupStore.fetchGroups(config);
       },
       user,
       isAuthenticated,
