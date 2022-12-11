@@ -33,6 +33,7 @@ import { defineComponent, ref } from "vue";
 import { useAuthStore } from "src/stores/auth";
 import { useQuasar } from "quasar";
 import { route } from "quasar/wrappers";
+import { useAuth0 } from "@auth0/auth0-vue";
 
 export default defineComponent({
   name: "LoginForm",
@@ -55,6 +56,11 @@ export default defineComponent({
       authStore,
       username,
       password,
+      login: () => {
+        loginWithRedirect();
+      },
+      user,
+      isAuthenticated,
     };
   },
 });
