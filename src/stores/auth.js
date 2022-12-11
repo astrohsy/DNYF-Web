@@ -24,7 +24,7 @@ export const useAuthStore = defineStore("auth", {
       localStorage.setItem("username", this.username);
     },
     async requestLogout() {
-      //this.username = null;
+      this.username = null;
       localStorage.removeItem("username");
     },
   },

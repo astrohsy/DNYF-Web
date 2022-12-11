@@ -13,7 +13,7 @@
           :options="options"
         />
         <q-space> </q-space>
-        Hi {{ authStore.getUsername }}!
+        Hi {{ authStore.username }}!
         <q-btn to="/" @click="handleSignOut">Logout</q-btn>
       </q-toolbar>
     </q-header>
