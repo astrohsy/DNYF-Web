@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md" style="max-width: 400px">
-    <q-form class="q-gutter-md" @submit="handleSignIn">
+    <q-form class="q-gutter-md" @submit="login">
       <q-input
         filled
         v-model="username"
@@ -19,6 +19,9 @@
         lazy-rules
         :rules="[(val) => (val && val.length > 0) || 'Please type something']"
       />
+      <pre>
+      <code>{{ user }}</code>
+    </pre>
 
       <div>
         <q-btn label="Sign In" type="submit" color="primary" />
@@ -48,6 +51,7 @@ export default defineComponent({
   setup() {
     const $q = useQuasar();
     const authStore = useAuthStore();
+    const { loginWithRedirect, user, isAuthenticated } = useAuth0();
 
     var username = ref(null);
     var password = ref(null);
