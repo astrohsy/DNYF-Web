@@ -77,7 +77,10 @@ export default defineComponent({
         detailedResponse: true,
       });
       const config = {
-        headers: { Authorization: `Bearer ${tokenInfo.id_token}` },
+        headers: {
+          Authorization: `Bearer ${tokenInfo.id_token}`,
+          "Access-Control-Allow-Origin": "*",
+        },
       };
 
       this.groupStore.createGroup(config, {
