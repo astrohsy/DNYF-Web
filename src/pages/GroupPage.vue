@@ -66,11 +66,23 @@ export default defineComponent({
       search: ref(null),
     };
   },
-  mounted() {
-    this.groupStore.fetchGroups();
+  async mounted() {
+    const tokenInfo = await this.$auth0.getAccessTokenSilently({
+      detailedResponse: true,
+    });
+    const config = {
+      headers: { Authorization: `Bearer ${tokenInfo.id_token}` },
+    };
+    await this.groupStore.fetchGroups(config);
   },
-  created() {
-    this.groupStore.fetchGroups();
+  async created() {
+    const tokenInfo = await this.$auth0.getAccessTokenSilently({
+      detailedResponse: true,
+    });
+    const config = {
+      headers: { Authorization: `Bearer ${tokenInfo.id_token}` },
+    };
+    this.groupStore.fetchGroups(config);
   },
 });
 </script>
