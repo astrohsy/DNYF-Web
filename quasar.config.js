@@ -13,7 +13,6 @@ const ESLintPlugin = require("eslint-webpack-plugin");
 const { configure } = require("quasar/wrappers");
 
 module.exports = configure(function (ctx) {
-  console.log("=========>", ctx.dev);
   return {
     // https://v2.quasar.dev/quasar-cli-webpack/supporting-ts
     supportTS: false,

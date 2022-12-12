@@ -62,7 +62,7 @@ export default defineComponent({
 
     function handleSignOut(e, go) {
       e.preventDefault();
-      logout();
+      logout({ returnTo: process.env.WEB_URL });
     }
 
     return {
