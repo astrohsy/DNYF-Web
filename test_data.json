@@ -1,8 +1,0 @@
-{
-    "users": [
-        {"id": 1, "username": "bob", "name": "Bob", "email": "bob@me.com"},
-        {"id": 2, "username": "bot", "name": "Bot", "email": "bot@me.com"},
-        {"id": 3, "username": "cat", "name": "Cat", "email": "cat@me.com"},
-        {"id": 4, "username": "can", "name": "Can", "email": "can@me.com"}
-    ]
-}
