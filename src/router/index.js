@@ -50,7 +50,7 @@ export default route(function (store /* { store, ssrContext } */) {
       next({ path: "/login", query: { next: to.fullPath } });
     } else if (to.path === "/login" && userStore.isLogined()) {
       console.log(2222);
-      next({ path: "/login", query: { next: to.fullPath } });
+      //next({ path: "/login", query: { next: to.fullPath } });
       next({ path: "/" });
     } else {
       console.log(3333, userStore.isLogined());

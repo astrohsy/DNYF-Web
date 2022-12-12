@@ -18,9 +18,9 @@ export const useGroupStore = defineStore("group", {
         console.log(e);
       }
     },
-    async fetchGroups() {
+    async fetchGroups(config) {
       try {
-        const response = await api.get("/groups");
+        const response = await api.get("/groups", (config = config));
         const groups = response.data.data;
 
         console.log(`/groups: ${JSON.stringify(groups)}`);
