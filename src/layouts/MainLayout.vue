@@ -13,7 +13,13 @@
           :options="options"
         />
         <q-space> </q-space>
-        Hi {{ authStore.getUsername }}!
+
+        <q-btn>
+          <q-avatar>
+            <img :src="user.picture" />
+          </q-avatar>
+          {{ user.given_name }}
+        </q-btn>
         <q-btn to="/" @click="handleSignOut">Logout</q-btn>
       </q-toolbar>
     </q-header>
@@ -28,6 +34,7 @@ import { defineComponent, ref } from "vue";
 import { useAuthStore } from "stores/auth";
 import { route } from "quasar/wrappers";
 const authStore = useAuthStore();
+import { useAuth0 } from "@auth0/auth0-vue";
 
 export default defineComponent({
   name: "MainLayout",
@@ -37,6 +44,7 @@ export default defineComponent({
   },
   methods: {},
   setup() {
+    const { logout, user } = useAuth0();
     const redirect = (e, go) => {
       console.log("hhihihihi");
       go({
@@ -54,11 +62,7 @@ export default defineComponent({
 
     function handleSignOut(e, go) {
       e.preventDefault();
-      authStore.requestLogout();
-      setTimeout(() => {
-        console.log("navigating as promised 2s ago");
-        go({ to: "/login" });
-      }, 100);
+      logout();
     }
 
     return {
@@ -66,7 +70,7 @@ export default defineComponent({
       model: ref("one"),
       authStore,
       handleSignOut,
-
+      user,
       options: [
         { label: "Home", value: "home" },
         { label: "Profile", value: "profile" },
