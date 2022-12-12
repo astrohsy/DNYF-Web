@@ -1,3 +1,5 @@
+import { authGuard } from "@auth0/auth0-vue";
+
 const routes = [
   {
     path: "/",
@@ -7,18 +9,18 @@ const routes = [
         path: "/",
         name: "group",
         component: () => import("pages/GroupPage.vue"),
-        meta: { requiresAuth: true },
+        beforeEnter: authGuard,
       },
       {
         path: "/group-edit",
         component: () => import("pages/GroupEditPage.vue"),
-        meta: { requiresAuth: true },
+        beforeEnter: authGuard,
       },
       {
         path: "/groups/:id",
         name: "group-detail",
         component: () => import("pages/GroupDetailPage.vue"),
-        meta: { requiresAuth: true },
+        beforeEnter: authGuard,
       },
     ],
   },
@@ -29,6 +31,7 @@ const routes = [
       { path: "/login", component: () => import("pages/LoginPage.vue") },
       { path: "/signup", component: () => import("pages/SignupPage.vue") },
     ],
+    beforeEnter: authGuard,
   },
   // Always leave this as last one,
   // but you can also remove it
