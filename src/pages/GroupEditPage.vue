@@ -73,7 +73,14 @@ export default defineComponent({
         message: "Submitted",
       });
 
-      this.groupStore.createGroup({
+      const tokenInfo = await this.$auth0.getAccessTokenSilently({
+        detailedResponse: true,
+      });
+      const config = {
+        headers: { Authorization: `Bearer ${tokenInfo.id_token}` },
+      };
+
+      this.groupStore.createGroup(config, {
         group_name: this.name,
         group_capacity: parseInt(this.capacity),
         //text: this.text,
