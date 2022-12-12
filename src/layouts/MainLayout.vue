@@ -4,7 +4,7 @@
       <q-toolbar class="bg-brand">
         <q-btn flat dense round icon="menu" aria-label="Menu" />
 
-        <q-toolbar-title> DNYF </q-toolbar-title>
+        <q-toolbar-title> DNYF123 </q-toolbar-title>
         <q-btn-toggle
           v-model="model"
           flat
