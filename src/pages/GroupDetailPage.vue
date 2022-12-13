@@ -2,18 +2,18 @@
   <div class="q-pa-md">
     <q-table
       title="Participants"
-      :rows="rows"
+      :rows="groupStore.group?.members"
       :columns="columns"
-      row-key="name"
+      row-key="id"
     >
       <template v-slot:body="props">
         <q-tr :props="props">
-          <q-td key="name" :props="props">
-            {{ props.row.name }}
+          <q-td key="id" :props="props">
+            {{ props.row.id }}
           </q-td>
-          <q-td key="phone" :props="props">
+          <q-td key="name" :props="props">
             <q-badge color="green">
-              {{ props.row.phone }}
+              {{ props.row.first_name + " " + props.row.last_name }}
             </q-badge>
           </q-td>
           <q-td key="email" :props="props">
@@ -21,9 +21,9 @@
               {{ props.row.email }}
             </q-badge>
           </q-td>
-          <q-td key="comment" :props="props">
+          <q-td key="phone" :props="props">
             <q-badge color="orange">
-              {{ props.row.comment }}
+              {{ props.row.phone }}
             </q-badge>
           </q-td>
         </q-tr>
@@ -33,30 +33,27 @@
 </template>
 <script>
 import { defineComponent, ref } from "vue";
-import { fetchGroupDetail } from "src/data/GroupDetail";
 import { useGroupStore } from "stores/group";
 const columns = [
   {
-    name: "name",
+    name: "id",
     required: true,
-    label: "Name",
+    label: "ID",
     align: "left",
-    field: (row) => row.name,
+    field: (row) => row.id,
     format: (val) => `${val}`,
     sortable: true,
   },
   {
-    name: "phone",
+    name: "name",
     align: "right",
-    label: "Phone",
-    field: "phone",
+    label: "Name",
+    field: (row) => row.first_name + row.last_name,
     sortable: true,
   },
   { name: "email", label: "Email", field: "email", sortable: true },
-  { name: "comment", label: "Comment", field: "comment" },
+  { name: "phone", label: "Phone", field: "phone" },
 ];
-
-const rows = fetchGroupDetail();
 
 export default defineComponent({
   name: "GroupPost",
@@ -71,18 +68,33 @@ export default defineComponent({
     return {
       groupStore,
       columns,
-      rows,
     };
   },
-  mounted() {
-    console.log(this.props);
-    console.log(this.$route);
+  async mounted() {
+    const tokenInfo = await this.$auth0.getAccessTokenSilently({
+      detailedResponse: true,
+    });
+    const config = {
+      headers: {
+        Authorization: `Bearer ${tokenInfo.id_token}`,
+        "Access-Control-Allow-Origin": "*",
+      },
+    };
     const groupId = this.$route.params.id;
-    this.groupStore.fetchGroup(groupId);
+    this.groupStore.fetchGroup(config, groupId);
   },
-  created() {
+  async created() {
+    const tokenInfo = await this.$auth0.getAccessTokenSilently({
+      detailedResponse: true,
+    });
+    const config = {
+      headers: {
+        Authorization: `Bearer ${tokenInfo.id_token}`,
+        "Access-Control-Allow-Origin": "*",
+      },
+    };
     const groupId = this.$route.params.id;
-    this.groupStore.fetchGroup(groupId);
+    this.groupStore.fetchGroup(config, groupId);
   },
 });
 </script>

@@ -41,7 +41,7 @@
 
     <q-separator />
 
-    <q-card-actions v-if="registered">
+    <q-card-actions v-if="false">
       <q-btn flat round icon="cancel" color="red" />
       <q-btn flat color="red"> Cancel </q-btn>
     </q-card-actions>
