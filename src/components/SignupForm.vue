@@ -3,13 +3,27 @@
     <q-form @submit="handleSignUp" @reset="onReset" class="q-gutter-md">
       <q-input
         filled
-        v-model="id"
-        label="Your ID *"
-        hint="Username"
+        v-model="user.email"
+        label="ID"
         lazy-rules
         disable
         readonly
-        :rules="[(val) => (val && val.length > 0) || 'Please type something']"
+      />
+      <q-input
+        filled
+        v-model="user.given_name"
+        label="Name"
+        lazy-rules
+        disable
+        readonly
+      />
+      <q-input
+        filled
+        v-model="user.nickname"
+        label="Nickname"
+        lazy-rules
+        disable
+        readonly
       />
 
       <q-input
@@ -51,6 +65,8 @@
 import { useAuthStore } from "src/stores/auth";
 import { defineComponent, ref } from "vue";
 import { useQuasar } from "quasar";
+import { useAuth0 } from "@auth0/auth0-vue";
+import { useRoute } from "vue-router";
 const authStore = useAuthStore();
 const $q = useQuasar();
 
@@ -71,14 +87,15 @@ export default defineComponent({
     },
   },
   setup() {
+    const { user } = useAuth0();
+    console.log(user);
     return {
       authStore,
       $q,
-      id: ref(null),
-      password: ref(null),
-      password_confirm: ref(null),
+      fullname: () => user.given_name + " " + user.family_name,
       tel: ref(null),
       email: ref(null),
+      user,
     };
   },
 });
