@@ -4,6 +4,7 @@ import { api } from "src/boot/axios";
 export const useUserStore = defineStore("user", {
   state: () => ({
     user: {},
+    uid: null,
     created: false,
   }),
   getters: {},
@@ -18,13 +19,21 @@ export const useUserStore = defineStore("user", {
         console.log(e);
       }
     },
-    async fetchUser(config, id) {
+    async fetchUser(config, email) {
       try {
-        const response = await api.get(`/users/${id}`, (config = config));
+        const getIdResponse = await api.get(
+          `/users/${email}/id`,
+          (config = config)
+        );
+        const uid = getIdResponse.data.uid;
+
+        // fetch ID
+        const response = await api.get(`/users/${uid}`, (config = config));
         const user = response.data;
 
         console.log(`/users/{id}: ${JSON.stringify(user)}`);
         console.log(user);
+        this.uid = uid;
         this.user = user;
         this.created = true;
       } catch (e) {
