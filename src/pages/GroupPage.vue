@@ -1,43 +1,35 @@
 <template>
   <q-page padding>
     <div>
-      <q-splitter v-model="splitterModel" unit="px" style="height: 90%">
-        <template v-slot:before>
-          <div class="q-pa-sm">
-            <div class="q-pa-md">
-              <div class="text-h5 q-mb-md">Search</div>
-            </div>
-            <q-input
-              v-model="search"
-              debounce="500"
-              filled
-              placeholder="Search by title"
-            >
-              <template v-slot:append>
-                <q-icon name="search" />
-              </template>
-            </q-input>
-
-            <q-btn
-              @click="groupStore.goToGroupEdit()"
-              label="Create Group"
-              rounded
-              color="primary"
-              icon="groups"
-              no-caps
-            />
-          </div>
-        </template>
-        <template v-slot:after>
-          <div class="q-pa-md">
-            <GroupPost
-              v-bind:key="item.group_id"
-              v-for="item in groupStore.groups"
-              v-bind="item"
-            />
-          </div>
-        </template>
-      </q-splitter>
+      <div class="q-pa-sm">
+        <div class="q-pa-md">
+          <q-btn
+            @click="groupStore.goToGroupEdit()"
+            label="Create Group"
+            rounded
+            color="primary"
+            icon="groups"
+            no-caps
+          />
+        </div>
+        <q-input
+          v-model="search"
+          debounce="500"
+          filled
+          placeholder="Search by title"
+        >
+          <template v-slot:append>
+            <q-icon name="search" />
+          </template>
+        </q-input>
+      </div>
+      <div class="q-pa-md">
+        <GroupPost
+          v-bind:key="item.group_id"
+          v-for="item in groupStore.groups"
+          v-bind="item"
+        />
+      </div>
     </div>
   </q-page>
 </template>
