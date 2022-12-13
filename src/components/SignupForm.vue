@@ -3,39 +3,34 @@
     <q-form @submit="handleSignUp" @reset="onReset" class="q-gutter-md">
       <q-input
         filled
-        v-model="id"
-        label="Your ID *"
-        hint="Username"
+        v-model="user.email"
+        label="ID"
         lazy-rules
-        :rules="[(val) => (val && val.length > 0) || 'Please type something']"
+        disable
+        readonly
       />
-
       <q-input
         filled
-        type="password"
-        v-model="password"
-        label="Your Password *"
-        hint="Password"
+        v-model="user.given_name"
+        label="Name"
         lazy-rules
-        :rules="[(val) => (val && val.length > 0) || 'Please type something']"
+        disable
+        readonly
       />
-
       <q-input
         filled
-        type="password"
-        v-model="password_confirm"
-        label="Your Confrim Password *"
-        hint="Confirm Password"
+        v-model="user.nickname"
+        label="Nickname"
         lazy-rules
-        :rules="[(val) => (val && val.length > 0) || 'Please type something']"
+        disable
+        readonly
       />
 
       <q-input
         filled
         type="tel"
-        v-model="tel"
+        v-model="userStore.user.phone"
         label="Your Phone Number"
-        hint="Mobile"
         lazy-rules
         :rules="[(val) => (val && val.length > 0) || 'Please type something']"
       />
@@ -43,9 +38,17 @@
       <q-input
         filled
         type="email"
-        v-model="email"
+        v-model="userStore.user.email"
         label="Your Email"
-        hint="Email"
+        lazy-rules
+        :rules="[(val) => (val && val.length > 0) || 'Please type something']"
+      />
+
+      <q-input
+        filled
+        type="zip"
+        v-model="userStore.user.zip_code"
+        label="Your Zipcode"
         lazy-rules
         :rules="[(val) => (val && val.length > 0) || 'Please type something']"
       />
@@ -53,9 +56,8 @@
       <div>
         <q-btn label="Sign Up" type="submit" class="q-ml-sm" />
         <q-btn
-          to="/login"
+          to="/"
           label="Cancel"
-          type="reset"
           color="primary"
           flat
           class="q-ml-sm float-right"
@@ -66,10 +68,10 @@
 </template>
 
 <script>
-import { useAuthStore } from "src/stores/auth";
+import { useUserStore } from "src/stores/user";
 import { defineComponent, ref } from "vue";
 import { useQuasar } from "quasar";
-const authStore = useAuthStore();
+import { useAuth0 } from "@auth0/auth0-vue";
 const $q = useQuasar();
 
 export default defineComponent({
@@ -89,15 +91,29 @@ export default defineComponent({
     },
   },
   setup() {
+    const { user } = useAuth0();
+    const userStore = useUserStore();
+    console.log(user);
     return {
-      authStore,
+      userStore,
       $q,
-      id: ref(null),
-      password: ref(null),
-      password_confirm: ref(null),
+      fullname: () => user.given_name + " " + user.family_name,
       tel: ref(null),
       email: ref(null),
+      user,
     };
+  },
+  async mounted() {
+    const tokenInfo = await this.$auth0.getAccessTokenSilently({
+      detailedResponse: true,
+    });
+    const config = {
+      headers: {
+        Authorization: `Bearer ${tokenInfo.id_token}`,
+        "Access-Control-Allow-Origin": "*",
+      },
+    };
+    this.userStore.fetchUser(config, this.$auth0.email);
   },
 });
 </script>

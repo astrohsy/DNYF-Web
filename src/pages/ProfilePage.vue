@@ -5,7 +5,7 @@
       <div class="col-auto">
         <q-card bordered class="bg-white-9 my-card fixed-center">
           <q-card-section>
-            <div class="text-h6">Sign Up</div>
+            <div class="text-h6">Profile Setting</div>
             <div class="text-subtitle2">by DNYFs</div>
           </q-card-section>
 
@@ -34,7 +34,7 @@
 <script>
 import SignupForm from "src/components/SignupForm.vue";
 export default {
-  name: "SignupPage",
+  name: "ProfilePage",
   components: {
     SignupForm,
   },

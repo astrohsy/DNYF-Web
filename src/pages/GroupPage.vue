@@ -1,17 +1,36 @@
 <template>
   <q-page padding>
     <div>
+      <div class="row justify-start" :style="{ marginBottom: '2em' }">
+        <q-btn
+          @click="
+            () => {
+              this.$router.push('/group-edit');
+            }
+          "
+          label="Create Group"
+          class="col-2"
+          rounded
+          color="primary"
+          icon="groups"
+          no-caps
+        />
+        <q-btn
+          @click="
+            () => {
+              this.$router.push('/profile');
+            }
+          "
+          label="Edit Profile"
+          :style="{ marginLeft: '1em' }"
+          class="col-2"
+          rounded
+          color="red"
+          icon="manage_accounts"
+          no-caps
+        />
+      </div>
       <div class="q-pa-sm">
-        <div class="q-pa-md">
-          <q-btn
-            @click="groupStore.goToGroupEdit()"
-            label="Create Group"
-            rounded
-            color="primary"
-            icon="groups"
-            no-caps
-          />
-        </div>
         <q-input
           v-model="search"
           debounce="500"

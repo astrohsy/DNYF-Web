@@ -22,6 +22,11 @@ const routes = [
         component: () => import("pages/GroupDetailPage.vue"),
         beforeEnter: authGuard,
       },
+      {
+        path: "/profile",
+        component: () => import("pages/ProfilePage.vue"),
+        beforeEnter: authGuard,
+      },
     ],
   },
   {
@@ -29,7 +34,6 @@ const routes = [
     component: () => import("layouts/BlankLayout.vue"),
     children: [
       { path: "/login", component: () => import("pages/LoginPage.vue") },
-      { path: "/signup", component: () => import("pages/SignupPage.vue") },
     ],
     beforeEnter: authGuard,
   },
