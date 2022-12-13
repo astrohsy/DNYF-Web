@@ -3,7 +3,11 @@
     <div>
       <div class="row justify-start" :style="{ marginBottom: '2em' }">
         <q-btn
-          @click="groupStore.goToGroupEdit()"
+          @click="
+            () => {
+              this.$router.push('/group-edit');
+            }
+          "
           label="Create Group"
           class="col-2"
           rounded
@@ -12,7 +16,11 @@
           no-caps
         />
         <q-btn
-          @click="groupStore.goToGroupEdit()"
+          @click="
+            () => {
+              this.$router.push('/profile');
+            }
+          "
           label="Edit Profile"
           :style="{ marginLeft: '1em' }"
           class="col-2"

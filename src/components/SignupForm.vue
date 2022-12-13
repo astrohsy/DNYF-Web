@@ -7,26 +7,8 @@
         label="Your ID *"
         hint="Username"
         lazy-rules
-        :rules="[(val) => (val && val.length > 0) || 'Please type something']"
-      />
-
-      <q-input
-        filled
-        type="password"
-        v-model="password"
-        label="Your Password *"
-        hint="Password"
-        lazy-rules
-        :rules="[(val) => (val && val.length > 0) || 'Please type something']"
-      />
-
-      <q-input
-        filled
-        type="password"
-        v-model="password_confirm"
-        label="Your Confrim Password *"
-        hint="Confirm Password"
-        lazy-rules
+        disable
+        readonly
         :rules="[(val) => (val && val.length > 0) || 'Please type something']"
       />
 

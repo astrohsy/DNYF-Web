@@ -40,8 +40,5 @@ export const useGroupStore = defineStore("group", {
         console.log(e);
       }
     },
-    async goToGroupEdit() {
-      this.router.push("/group-edit");
-    },
   },
 });
