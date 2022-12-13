@@ -4,22 +4,13 @@
       <q-toolbar class="bg-brand">
         <q-btn flat dense round icon="menu" aria-label="Menu" />
 
-        <q-toolbar-title> DNYF123 </q-toolbar-title>
-        <q-btn-toggle
-          v-model="model"
-          flat
-          stretch
-          toggle-color="secondary"
-          :options="options"
-        />
-        <q-space> </q-space>
+        <q-btn size="lg" stretch flat label="DNYF" to="/" />
+        <q-space />
 
-        <q-btn>
-          <q-avatar>
-            <img :src="user.picture" />
-          </q-avatar>
+        <q-chip size="md" square>
+          <q-avatar size="md" icon="account_circle" text-color="secondary" />
           {{ user.given_name }}
-        </q-btn>
+        </q-chip>
         <q-btn to="/" @click="handleSignOut">Logout</q-btn>
       </q-toolbar>
     </q-header>
