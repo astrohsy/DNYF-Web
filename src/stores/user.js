@@ -4,27 +4,38 @@ import { api } from "src/boot/axios";
 export const useUserStore = defineStore("user", {
   state: () => ({
     user: {},
+    uid: null,
+    created: false,
   }),
   getters: {},
   actions: {
     async createUser(config, data) {
+      console.log(data);
       try {
-        const response = await api.post("/user", data, (config = config));
-        const groups = response.data.data;
-        console.log(`/groups: ${JSON.stringify(groups)}`);
+        const response = await api.post("/users", data, (config = config));
+        const users = response.data;
+        console.log(`/users: ${JSON.stringify(users)}`);
       } catch (e) {
         console.log(e);
       }
     },
-    async fetchUser(config, id) {
+    async fetchUser(config, email) {
       try {
-        id = "sample1";
-        const response = await api.get(`/users/${id}`, (config = config));
+        const getIdResponse = await api.get(
+          `/users/${email}/id`,
+          (config = config)
+        );
+        const uid = getIdResponse.data.uid;
+
+        // fetch ID
+        const response = await api.get(`/users/${uid}`, (config = config));
         const user = response.data;
 
         console.log(`/users/{id}: ${JSON.stringify(user)}`);
         console.log(user);
+        this.uid = uid;
         this.user = user;
+        this.created = true;
       } catch (e) {
         console.log(e);
       }

@@ -54,7 +54,7 @@
       />
 
       <div>
-        <q-btn label="Sign Up" type="submit" class="q-ml-sm" />
+        <q-btn label="Confrim" type="submit" class="q-ml-sm" />
         <q-btn
           to="/"
           label="Cancel"
@@ -78,16 +78,30 @@ export default defineComponent({
   name: "SignupForm",
   methods: {
     async handleSignUp() {
-      this.authStore.requestSignup(this.username, this.password);
+      const tokenInfo = await this.$auth0.getAccessTokenSilently({
+        detailedResponse: true,
+      });
+      const config = {
+        headers: {
+          Authorization: `Bearer ${tokenInfo.id_token}`,
+          "Access-Control-Allow-Origin": "*",
+        },
+      };
+      const data = {
+        first_name: this.user.given_name,
+        last_name: this.user.family_name ? this.user.family_name : "_",
+        phone: this.userStore.user.phone,
+        email: this.user.email,
+        zip_code: this.userStore.user.zip_code,
+      };
+      this.userStore.createUser(config, data);
 
       this.$q.notify({
-        message: "Sign Up Completed!!!",
+        message: "Profile Info Saved!!!",
         caption: "Welcome to DNYF!!",
         color: "primary",
         position: "top",
       });
-      //this.$router.push({ path: "/" });
-      console.log(this.$router.currentRoute);
     },
   },
   setup() {
@@ -97,9 +111,6 @@ export default defineComponent({
     return {
       userStore,
       $q,
-      fullname: () => user.given_name + " " + user.family_name,
-      tel: ref(null),
-      email: ref(null),
       user,
     };
   },
@@ -113,7 +124,7 @@ export default defineComponent({
         "Access-Control-Allow-Origin": "*",
       },
     };
-    this.userStore.fetchUser(config, this.$auth0.email);
+    this.userStore.fetchUser(config, this.user.email);
   },
 });
 </script>

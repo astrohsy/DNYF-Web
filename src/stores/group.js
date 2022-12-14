@@ -40,5 +40,32 @@ export const useGroupStore = defineStore("group", {
         console.log(e);
       }
     },
+    async joinGroup(config, groupId, email) {
+      try {
+        const data = { user_email: email };
+        await api.post(`/groups/${groupId}/members`, data, (config = config));
+
+        const response = await api.get("/groups", (config = config));
+        const groups = response.data.data;
+
+        console.log(`/groups: ${JSON.stringify(groups)}`);
+        this.groups = groups;
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    async leaveGroup(config, groupId, email) {
+      try {
+        const data = { user_email: email };
+        const response = await api.post(
+          `/groups/${groupId}/members`,
+          data,
+          (config = config)
+        );
+        await this.actions.fetchGroups((config = config));
+      } catch (e) {
+        console.log(e);
+      }
+    },
   },
 });

@@ -57,7 +57,9 @@
 import { defineComponent, ref } from "vue";
 import GroupPost from "src/components/GroupPost.vue";
 import { useGroupStore } from "stores/group";
+import { useUserStore } from "stores/user";
 import { useQuasar } from "quasar";
+import { useAuth0 } from "@auth0/auth0-vue";
 const data = ref(null);
 
 export default defineComponent({
@@ -69,10 +71,13 @@ export default defineComponent({
 
   setup() {
     const groupStore = useGroupStore();
+    const userStore = useUserStore();
+    const { user } = useAuth0();
     const $q = useQuasar();
     return {
       groupStore,
-      splitterModel: ref(250),
+      userStore,
+      user,
       group: ref(["op1"]),
       search: ref(null),
     };
@@ -100,6 +105,11 @@ export default defineComponent({
       },
     };
     this.groupStore.fetchGroups(config);
+
+    if (!this.userStore.uid) {
+      console.log(111111111111);
+      this.userStore.fetchUser(config, this.user.email);
+    }
   },
 });
 </script>

@@ -41,12 +41,13 @@
 
     <q-separator />
 
-    <q-card-actions v-if="false">
-      <q-btn flat round icon="cancel" color="red" />
-      <q-btn flat color="red"> Cancel </q-btn>
-    </q-card-actions>
-    <q-card-actions v-else>
-      <q-btn flat color="primary">Join</q-btn>
+    <q-card-actions>
+      <div v-if="joinedGroup()">
+        <q-btn flat color="red"> Cancel </q-btn>
+      </div>
+      <div v-else>
+        <q-btn flat color="primary" @click="joinGroup">Join</q-btn>
+      </div>
       <q-btn
         flat
         color="gray"
@@ -70,6 +71,9 @@
 
 <script>
 import { defineComponent, ref } from "vue";
+import { useUserStore } from "stores/user";
+import { useGroupStore } from "stores/group";
+import { useAuth0 } from "@auth0/auth0-vue";
 
 export default defineComponent({
   name: "GroupPost",
@@ -86,13 +90,45 @@ export default defineComponent({
       type: Number,
       required: true,
     },
+    members: {
+      type: Object,
+      required: true,
+    },
     links: {
       type: Object,
       required: false,
     },
   },
+  methods: {
+    joinedGroup() {
+      const id = this.userStore.uid;
+      return this.members?.map((x) => x.id).includes(id);
+    },
+    async joinGroup() {
+      const tokenInfo = await this.$auth0.getAccessTokenSilently({
+        detailedResponse: true,
+      });
+      const config = {
+        headers: {
+          Authorization: `Bearer ${tokenInfo.id_token}`,
+          "Access-Control-Allow-Origin": "*",
+        },
+      };
+      return this.groupStore.joinGroup(
+        config,
+        this.group_id,
+        this.userStore.user.email
+      );
+    },
+  },
   setup: () => {
+    const userStore = useUserStore();
+    const groupStore = useGroupStore();
+    const { user } = useAuth0();
     return {
+      userStore,
+      groupStore,
+      user,
       starRating: ref(1),
     };
   },
