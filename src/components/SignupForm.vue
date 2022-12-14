@@ -1,18 +1,10 @@
 <template>
-  <div class="q-pa-md" style="max-width: 400px">
+  <div class="q-pa-xs" style="max-width: 500px">
     <q-form @submit="handleSignUp" @reset="onReset" class="q-gutter-md">
       <q-input
         filled
         v-model="user.email"
         label="ID"
-        lazy-rules
-        disable
-        readonly
-      />
-      <q-input
-        filled
-        v-model="user.given_name"
-        label="Name"
         lazy-rules
         disable
         readonly
@@ -26,6 +18,26 @@
         readonly
       />
 
+      <div class="row items-start">
+        <q-input
+          filled
+          type="str"
+          v-model="userStore.user.first_name"
+          label="Your First Name"
+          lazy-rules
+          :rules="[(val) => (val && val.length > 0) || 'Please type something']"
+        />
+        <q-space />
+        <q-input
+          filled
+          type="str"
+          v-model="userStore.user.last_name"
+          label="Your Last Name"
+          lazy-rules
+          :rules="[(val) => (val && val.length > 0) || 'Please type something']"
+        />
+      </div>
+
       <q-input
         filled
         type="tel"
@@ -34,16 +46,6 @@
         lazy-rules
         :rules="[(val) => (val && val.length > 0) || 'Please type something']"
       />
-
-      <q-input
-        filled
-        type="email"
-        v-model="userStore.user.email"
-        label="Your Email"
-        lazy-rules
-        :rules="[(val) => (val && val.length > 0) || 'Please type something']"
-      />
-
       <q-input
         filled
         type="zip"
@@ -88,8 +90,8 @@ export default defineComponent({
         },
       };
       const data = {
-        first_name: this.user.given_name,
-        last_name: this.user.family_name ? this.user.family_name : "_",
+        first_name: this.userStore.user.first_name,
+        last_name: this.userStore.user.last_name,
         phone: this.userStore.user.phone,
         email: this.user.email,
         zip_code: this.userStore.user.zip_code,

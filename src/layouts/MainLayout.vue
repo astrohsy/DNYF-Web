@@ -9,7 +9,7 @@
 
         <q-chip size="md" square>
           <q-avatar size="md" icon="account_circle" text-color="secondary" />
-          {{ user.given_name }}
+          {{ userStore.user.first_name }}
         </q-chip>
         <q-btn to="/" @click="handleSignOut">Logout</q-btn>
       </q-toolbar>
@@ -23,6 +23,7 @@
 <script>
 import { defineComponent, ref } from "vue";
 import { useAuthStore } from "stores/auth";
+import { useUserStore } from "stores/user";
 import { route } from "quasar/wrappers";
 const authStore = useAuthStore();
 import { useAuth0 } from "@auth0/auth0-vue";
@@ -36,6 +37,7 @@ export default defineComponent({
   methods: {},
   setup() {
     const { logout, user } = useAuth0();
+    const userStore = useUserStore();
     const redirect = (e, go) => {
       console.log("hhihihihi");
       go({
@@ -60,6 +62,7 @@ export default defineComponent({
       redirect,
       model: ref("one"),
       authStore,
+      userStore,
       handleSignOut,
       user,
       options: [

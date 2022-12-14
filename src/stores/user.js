@@ -12,9 +12,15 @@ export const useUserStore = defineStore("user", {
     async createUser(config, data) {
       console.log(data);
       try {
-        const response = await api.post("/users", data, (config = config));
-        const users = response.data;
-        console.log(`/users: ${JSON.stringify(users)}`);
+        if (this.$state.uid) {
+          const response = await api.put(
+            `/users/${this.$state.uid}`,
+            data,
+            (config = config)
+          );
+        } else {
+          const response = await api.post("/users", data, (config = config));
+        }
       } catch (e) {
         console.log(e);
       }
