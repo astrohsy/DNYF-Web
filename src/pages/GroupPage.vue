@@ -107,7 +107,6 @@ export default defineComponent({
     this.groupStore.fetchGroups(config);
 
     if (!this.userStore.uid) {
-      console.log(111111111111);
       this.userStore.fetchUser(config, this.user.email);
     }
   },
