@@ -57,12 +57,16 @@ export const useGroupStore = defineStore("group", {
     async leaveGroup(config, groupId, email) {
       try {
         const data = { user_email: email };
-        const response = await api.post(
-          `/groups/${groupId}/members`,
-          data,
+        await api.delete(
+          `/groups/${groupId}/members/${email}`,
           (config = config)
         );
-        await this.actions.fetchGroups((config = config));
+
+        const response = await api.get("/groups", (config = config));
+        const groups = response.data.data;
+
+        console.log(`/groups: ${JSON.stringify(groups)}`);
+        this.groups = groups;
       } catch (e) {
         console.log(e);
       }

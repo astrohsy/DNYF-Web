@@ -43,7 +43,7 @@
 
     <q-card-actions>
       <div v-if="joinedGroup()">
-        <q-btn flat color="red"> Cancel </q-btn>
+        <q-btn flat color="red" @click="leaveGroup">Leave</q-btn>
       </div>
       <div v-else>
         <q-btn flat color="primary" @click="joinGroup">Join</q-btn>
@@ -115,6 +115,22 @@ export default defineComponent({
         },
       };
       return this.groupStore.joinGroup(
+        config,
+        this.group_id,
+        this.userStore.user.email
+      );
+    },
+    async leaveGroup() {
+      const tokenInfo = await this.$auth0.getAccessTokenSilently({
+        detailedResponse: true,
+      });
+      const config = {
+        headers: {
+          Authorization: `Bearer ${tokenInfo.id_token}`,
+          "Access-Control-Allow-Origin": "*",
+        },
+      };
+      return this.groupStore.leaveGroup(
         config,
         this.group_id,
         this.userStore.user.email
