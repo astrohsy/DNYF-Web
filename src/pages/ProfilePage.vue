@@ -3,7 +3,7 @@
     <!-- content -->
     <div class="row login-page">
       <div class="col-auto">
-        <q-card bordered class="bg-white-9 my-card fixed-center">
+        <q-card bordered class="bg-white-9 signup-card fixed-center">
           <q-card-section>
             <div class="text-h6">Profile Setting</div>
             <div class="text-subtitle2">by DNYFs</div>
@@ -24,7 +24,7 @@
 .div-3 {
   background-color: rgb(255, 0, 0);
 }
-.my-card {
+.signup-card {
   width: 100%;
   max-width: 400px;
   display: inline-block;
