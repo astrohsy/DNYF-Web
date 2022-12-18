@@ -4,7 +4,7 @@
       <q-toolbar class="bg-brand">
         <q-btn flat dense round icon="menu" aria-label="Menu" />
 
-        <q-btn size="lg" stretch flat label="DNYF" to="/" />
+        <q-btn size="lg" stretch flat label="Study Group Matcher" to="/" />
         <q-space />
 
         <q-chip size="md" square>
