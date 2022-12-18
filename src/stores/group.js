@@ -1,10 +1,14 @@
 import { defineStore } from "pinia";
 import { api } from "src/boot/axios";
 
+const perPage = 4;
+
 export const useGroupStore = defineStore("group", {
   state: () => ({
     groups: [],
     group: null,
+    pageNum: 0,
+    currentPage: 0,
   }),
   getters: {},
   actions: {
@@ -17,13 +21,27 @@ export const useGroupStore = defineStore("group", {
         console.log(e);
       }
     },
-    async fetchGroups(config) {
+    async initGroups(config) {
       try {
-        const response = await api.get("/groups", (config = config));
+        const response = await api.get(`/groups`, (config = config));
+        const groups = response.data.data;
+        this.currentPage = 0;
+        this.pageNum = Math.ceil(groups.length / 4);
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    async fetchGroups(config, limit = 100, offset = 0) {
+      try {
+        const response = await api.get(
+          `/groups?limit=${limit}&${offset}`,
+          (config = config)
+        );
         const groups = response.data.data;
 
-        console.log(`/groups: ${JSON.stringify(groups)}`);
+        //console.log(`/groups: ${JSON.stringify(groups)}`);
         this.groups = groups;
+        this.total = this.groups.length;
       } catch (e) {
         console.log(e);
       }
@@ -48,7 +66,7 @@ export const useGroupStore = defineStore("group", {
         const response = await api.get("/groups", (config = config));
         const groups = response.data.data;
 
-        console.log(`/groups: ${JSON.stringify(groups)}`);
+        //console.log(`/groups: ${JSON.stringify(groups)}`);
         this.groups = groups;
       } catch (e) {
         console.log(e);

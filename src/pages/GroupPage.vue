@@ -48,6 +48,13 @@
         v-bind="item"
       />
     </div>
+    <div class="q-pa-lg flex flex-center">
+      <q-pagination
+        v-model="groupStore.currentPage"
+        :max="groupStore.pageNum"
+        input
+      />
+    </div>
   </q-page>
 </template>
 
@@ -76,8 +83,6 @@ export default defineComponent({
       groupStore,
       userStore,
       user,
-      group: ref(["op1"]),
-      search: ref(null),
     };
   },
   async mounted() {
@@ -90,7 +95,7 @@ export default defineComponent({
         "Access-Control-Allow-Origin": "*",
       },
     };
-    await this.groupStore.fetchGroups(config);
+    this.groupStore.fetchGroups(config);
   },
   async created() {
     const tokenInfo = await this.$auth0.getAccessTokenSilently({
@@ -102,6 +107,7 @@ export default defineComponent({
         "Access-Control-Allow-Origin": "*",
       },
     };
+    await this.groupStore.initGroups(config);
     this.groupStore.fetchGroups(config);
 
     if (!this.userStore.uid) {
