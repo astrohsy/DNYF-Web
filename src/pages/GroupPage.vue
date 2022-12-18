@@ -46,12 +46,14 @@
         v-bind:key="item.group_id"
         v-for="item in groupStore.groups"
         v-bind="item"
+        :hello="groupStore.currentPage"
       />
     </div>
     <div class="q-pa-lg flex flex-center">
       <q-pagination
         v-model="groupStore.currentPage"
         :max="groupStore.pageNum"
+        @click="fetchNextPage"
         input
       />
     </div>
@@ -65,11 +67,23 @@ import { useGroupStore } from "stores/group";
 import { useUserStore } from "stores/user";
 import { useQuasar } from "quasar";
 import { useAuth0 } from "@auth0/auth0-vue";
-const data = ref(null);
 
 export default defineComponent({
   name: "GroupPage",
-
+  methods: {
+    async fetchNextPage() {
+      const tokenInfo = await this.$auth0.getAccessTokenSilently({
+        detailedResponse: true,
+      });
+      const config = {
+        headers: {
+          Authorization: `Bearer ${tokenInfo.access_token}`,
+          "Access-Control-Allow-Origin": "*",
+        },
+      };
+      this.groupStore.fetchGroups(config, 4, this.groupStore.currentPage);
+    },
+  },
   components: {
     GroupPost,
   },
@@ -83,6 +97,8 @@ export default defineComponent({
       groupStore,
       userStore,
       user,
+      current: ref(0),
+      search: ref(null),
     };
   },
   async mounted() {
@@ -95,7 +111,7 @@ export default defineComponent({
         "Access-Control-Allow-Origin": "*",
       },
     };
-    this.groupStore.fetchGroups(config);
+    this.groupStore.fetchGroups(config, 4, 1);
   },
   async created() {
     const tokenInfo = await this.$auth0.getAccessTokenSilently({
@@ -108,7 +124,7 @@ export default defineComponent({
       },
     };
     await this.groupStore.initGroups(config);
-    this.groupStore.fetchGroups(config);
+    this.groupStore.fetchGroups(config, 4, 1);
 
     if (!this.userStore.uid) {
       this.userStore.fetchUser(config, this.user.email);

@@ -8,7 +8,7 @@ export const useGroupStore = defineStore("group", {
     groups: [],
     group: null,
     pageNum: 0,
-    currentPage: 0,
+    currentPage: 1,
   }),
   getters: {},
   actions: {
@@ -34,7 +34,7 @@ export const useGroupStore = defineStore("group", {
     async fetchGroups(config, limit = 100, offset = 0) {
       try {
         const response = await api.get(
-          `/groups?limit=${limit}&${offset}`,
+          `/groups?limit=${limit}&offset=${(offset - 1) * perPage}`,
           (config = config)
         );
         const groups = response.data.data;
@@ -63,10 +63,13 @@ export const useGroupStore = defineStore("group", {
         const data = { user_email: email };
         await api.post(`/groups/${groupId}/members`, data, (config = config));
 
-        const response = await api.get("/groups", (config = config));
+        const response = await api.get(
+          `/groups?limit=${perPage}&offset=${
+            (this.$state.currentPage - 1) * perPage
+          }`,
+          (config = config)
+        );
         const groups = response.data.data;
-
-        //console.log(`/groups: ${JSON.stringify(groups)}`);
         this.groups = groups;
       } catch (e) {
         console.log(e);
@@ -80,7 +83,12 @@ export const useGroupStore = defineStore("group", {
           (config = config)
         );
 
-        const response = await api.get("/groups", (config = config));
+        const response = await api.get(
+          `/groups?limit=${perPage}&offset=${
+            (this.$state.currentPage - 1) * perPage
+          }`,
+          (config = config)
+        );
         const groups = response.data.data;
 
         console.log(`/groups: ${JSON.stringify(groups)}`);
