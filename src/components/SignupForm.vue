@@ -92,7 +92,7 @@ export default defineComponent({
       const data = {
         first_name: this.userStore.user.first_name,
         last_name: this.userStore.user.last_name,
-        phone_number: this.userStore.user.phone,
+        phone: this.userStore.user.phone,
         email: this.user.email,
         zip_code: this.userStore.user.zip_code,
       };
