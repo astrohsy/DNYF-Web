@@ -4,22 +4,8 @@
       <q-img src="images/group-preview-picture-1.jpg" style="width: 200px" />
       <q-card-section style="width: 100%">
         <q-card-section>
-          <q-btn
-            fab
-            color="primary"
-            icon="place"
-            class="absolute"
-            style="top: 0; right: 12px; transform: translateY(-50%)"
-          />
-
           <div class="row no-wrap items-center">
             <div class="col text-h6 ellipsis">{{ group_name }}</div>
-            <div
-              class="col-auto text-grey text-caption q-pt-md row no-wrap items-center"
-            >
-              <q-icon name="place" />
-              250 ft
-            </div>
           </div>
 
           <q-rating
@@ -29,44 +15,36 @@
             size="24px"
           />
         </q-card-section>
-
-        <q-card-section class="q-pt-none">
-          <div class="text-subtitle1">Butler Library</div>
-          <div class="text-caption text-grey">
-            Looking for people to practice midterm together!
-          </div>
-        </q-card-section>
       </q-card-section>
+      <q-separator />
+
+      <q-card-actions>
+        <div v-if="joinedGroup()">
+          <q-btn flat color="red" @click="leaveGroup">Leave</q-btn>
+        </div>
+        <div v-else>
+          <q-btn flat color="primary" @click="joinGroup">Join</q-btn>
+        </div>
+        <q-btn
+          flat
+          color="gray"
+          :to="{
+            name: 'group-detail',
+            params: { id: group_id },
+            props: { links },
+          }"
+        >
+          Show more
+        </q-btn>
+      </q-card-actions>
     </q-card-section>
-
-    <q-separator />
-
-    <q-card-actions>
-      <div v-if="joinedGroup()">
-        <q-btn flat color="red" @click="leaveGroup">Leave</q-btn>
-      </div>
-      <div v-else>
-        <q-btn flat color="primary" @click="joinGroup">Join</q-btn>
-      </div>
-      <q-btn
-        flat
-        color="gray"
-        :to="{
-          name: 'group-detail',
-          params: { id: group_id },
-          props: { links },
-        }"
-      >
-        Show more
-      </q-btn>
-    </q-card-actions>
   </q-card>
 </template>
 
 <style lang="sass" scoped>
 .my-card
   width: 100%
-  margin-top: 30px
+  margin-top: 15px
 </style>
 
 <script>
