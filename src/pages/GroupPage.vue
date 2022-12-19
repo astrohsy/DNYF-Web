@@ -9,7 +9,7 @@
         placeholder="Search by title"
       >
         <template v-slot:append>
-          <q-icon name="search" @click="fetchNextPage" />
+          <q-btn round color="primary" icon="search" @click="fetchNextPage" />
         </template>
       </q-input>
       <q-space />
@@ -46,13 +46,13 @@
         v-bind:key="item.group_id"
         v-for="item in groupStore.groups"
         v-bind="item"
-        :hello="groupStore.currentPage"
       />
     </div>
     <div class="q-pa-lg flex flex-center">
       <q-pagination
         v-model="groupStore.currentPage"
-        :max="groupStore.pageNum"
+        :min="0"
+        :max="groupStore.pageNum - 1"
         @click="fetchNextPage"
         input
       />
@@ -81,12 +81,8 @@ export default defineComponent({
           "Access-Control-Allow-Origin": "*",
         },
       };
-      this.groupStore.fetchGroups(
-        config,
-        4,
-        this.groupStore.currentPage,
-        this.groupStore.search
-      );
+      this.groupStore.fetchGroups(config);
+      this.groupStore.initGroups(config);
     },
   },
   components: {

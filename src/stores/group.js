@@ -9,7 +9,7 @@ export const useGroupStore = defineStore("group", {
     groups: [],
     group: null,
     pageNum: 0,
-    currentPage: 1,
+    currentPage: 0,
   }),
   getters: {},
   actions: {
@@ -24,26 +24,29 @@ export const useGroupStore = defineStore("group", {
     },
     async initGroups(config) {
       try {
-        const response = await api.get(`/groups`, (config = config));
+        //this.currentPage = 0;
+        var req = `/groups`;
+        if (this.$state.search) {
+          req += `?group_name=${this.$state.search}`;
+        }
+        const response = await api.get(req, (config = config));
         const groups = response.data.data;
-        this.currentPage = 0;
+        console.log(groups);
         this.pageNum = Math.ceil(groups.length / 4);
       } catch (e) {
         console.log(e);
       }
     },
-    async fetchGroups(config, limit = 100, offset = 0, search = null) {
+    async fetchGroups(config) {
       try {
-        var req = `/groups?limit=${limit}&offset=${(offset - 1) * perPage}`;
-        if (search) {
-          req += `&group_name=${search}`;
+        const offset = this.$state.currentPage;
+        var req = `/groups?limit=${perPage}&offset=${offset * perPage}`;
+        if (this.$state.search) {
+          req += `&group_name=${this.$state.search}`;
         }
         const response = await api.get(req, (config = config));
         const groups = response.data.data;
-
-        //console.log(`/groups: ${JSON.stringify(groups)}`);
         this.groups = groups;
-        this.total = this.groups.length;
       } catch (e) {
         console.log(e);
       }
@@ -65,8 +68,7 @@ export const useGroupStore = defineStore("group", {
         const data = { user_email: email };
         await api.post(`/groups/${groupId}/members`, data, (config = config));
 
-        const offset =
-          this.$state.currentPage - 1 > 0 ? this.$state.currentPage - 1 : 0;
+        const offset = this.$state.currentPage;
         var req = `/groups?limit=${perPage}&offset=${offset * perPage}`;
         if (this.$state.search) {
           req += `&group_name=${this.$state.search}`;
@@ -80,13 +82,11 @@ export const useGroupStore = defineStore("group", {
     },
     async leaveGroup(config, groupId, email) {
       try {
-        const data = { user_email: email };
         await api.delete(
           `/groups/${groupId}/members/${email}`,
           (config = config)
         );
-        const offset =
-          this.$state.currentPage - 1 > 0 ? this.$state.currentPage - 1 : 0;
+        const offset = this.$state.currentPage;
         var req = `/groups?limit=${perPage}&offset=${offset * perPage}`;
         if (this.$state.search) {
           req += `&group_name=${this.$state.search}`;
