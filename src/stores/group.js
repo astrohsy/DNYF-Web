@@ -5,6 +5,7 @@ const perPage = 4;
 
 export const useGroupStore = defineStore("group", {
   state: () => ({
+    search: null,
     groups: [],
     group: null,
     pageNum: 0,
@@ -31,12 +32,13 @@ export const useGroupStore = defineStore("group", {
         console.log(e);
       }
     },
-    async fetchGroups(config, limit = 100, offset = 0) {
+    async fetchGroups(config, limit = 100, offset = 0, search = null) {
       try {
-        const response = await api.get(
-          `/groups?limit=${limit}&offset=${(offset - 1) * perPage}`,
-          (config = config)
-        );
+        var req = `/groups?limit=${limit}&offset=${(offset - 1) * perPage}`;
+        if (search) {
+          req += `&group_name=${search}`;
+        }
+        const response = await api.get(req, (config = config));
         const groups = response.data.data;
 
         //console.log(`/groups: ${JSON.stringify(groups)}`);
@@ -63,12 +65,13 @@ export const useGroupStore = defineStore("group", {
         const data = { user_email: email };
         await api.post(`/groups/${groupId}/members`, data, (config = config));
 
-        const response = await api.get(
-          `/groups?limit=${perPage}&offset=${
-            (this.$state.currentPage - 1) * perPage
-          }`,
-          (config = config)
-        );
+        const offset =
+          this.$state.currentPage - 1 > 0 ? this.$state.currentPage - 1 : 0;
+        var req = `/groups?limit=${perPage}&offset=${offset * perPage}`;
+        if (this.$state.search) {
+          req += `&group_name=${this.$state.search}`;
+        }
+        const response = await api.get(req, (config = config));
         const groups = response.data.data;
         this.groups = groups;
       } catch (e) {
@@ -82,13 +85,14 @@ export const useGroupStore = defineStore("group", {
           `/groups/${groupId}/members/${email}`,
           (config = config)
         );
+        const offset =
+          this.$state.currentPage - 1 > 0 ? this.$state.currentPage - 1 : 0;
+        var req = `/groups?limit=${perPage}&offset=${offset * perPage}`;
+        if (this.$state.search) {
+          req += `&group_name=${this.$state.search}`;
+        }
+        const response = await api.get(req, (config = config));
 
-        const response = await api.get(
-          `/groups?limit=${perPage}&offset=${
-            (this.$state.currentPage - 1) * perPage
-          }`,
-          (config = config)
-        );
         const groups = response.data.data;
 
         console.log(`/groups: ${JSON.stringify(groups)}`);

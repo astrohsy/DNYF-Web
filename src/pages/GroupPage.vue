@@ -2,14 +2,14 @@
   <q-page padding>
     <div class="row justify-start" :style="{ marginBottom: '1em' }">
       <q-input
-        v-model="search"
+        v-model="groupStore.search"
         class="col-7"
         debounce="500"
         filled
         placeholder="Search by title"
       >
         <template v-slot:append>
-          <q-icon name="search" />
+          <q-icon name="search" @click="fetchNextPage" />
         </template>
       </q-input>
       <q-space />
@@ -81,7 +81,12 @@ export default defineComponent({
           "Access-Control-Allow-Origin": "*",
         },
       };
-      this.groupStore.fetchGroups(config, 4, this.groupStore.currentPage);
+      this.groupStore.fetchGroups(
+        config,
+        4,
+        this.groupStore.currentPage,
+        this.groupStore.search
+      );
     },
   },
   components: {
@@ -97,8 +102,6 @@ export default defineComponent({
       groupStore,
       userStore,
       user,
-      current: ref(0),
-      search: ref(null),
     };
   },
   async mounted() {
