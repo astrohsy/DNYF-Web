@@ -44,7 +44,12 @@
         v-model="userStore.user.phone"
         label="Your Phone Number"
         lazy-rules
-        :rules="[(val) => (val && val.length > 0) || 'Please type something']"
+        :rules="[
+          (val) =>
+            /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/.test(
+              val
+            ) || 'Wrong Phone Number',
+        ]"
       />
       <q-input
         filled
@@ -52,7 +57,9 @@
         v-model="userStore.user.zip_code"
         label="Your Zipcode"
         lazy-rules
-        :rules="[(val) => (val && val.length > 0) || 'Please type something']"
+        :rules="[
+          (val) => /(^\d{5}$)|(^\d{5}-\d{4}$)/.test(val) || 'Wrong Zip Code',
+        ]"
       />
 
       <div>
