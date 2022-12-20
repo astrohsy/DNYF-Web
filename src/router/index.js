@@ -7,8 +7,6 @@ import {
 } from "vue-router";
 import routes from "./routes";
 import { useUserStore } from "src/stores/user";
-import { client } from "src/boot/auth0";
-import { unref } from "vue";
 
 /*
  * If not building with SSR mode, you can
@@ -37,7 +35,6 @@ export default route((store /* { store, ssrContext } */) => {
   Router.beforeEach((to, from, next) => {
     const userStore = useUserStore();
     if (to.meta.requiresSignup && !userStore.uid) {
-      console.log(userStore.uid);
       next({ path: "/blank" });
     } else {
       next();

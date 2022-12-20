@@ -10,7 +10,6 @@
 
 <script>
 import { useAuth0 } from "@auth0/auth0-vue";
-import { watch } from "fs";
 import { useUserStore } from "src/stores/user";
 
 export default {
@@ -46,6 +45,5 @@ export default {
       }
     }, 1000);
   },
-  watch,
 };
 </script>

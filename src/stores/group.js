@@ -17,7 +17,6 @@ export const useGroupStore = defineStore("group", {
       try {
         const response = await api.post("/groups", data, (config = config));
         const groups = response.data.data;
-        console.log(`/groups: ${JSON.stringify(groups)}`);
       } catch (e) {
         console.log(e);
       }
@@ -31,7 +30,6 @@ export const useGroupStore = defineStore("group", {
         }
         const response = await api.get(req, (config = config));
         const groups = response.data.data;
-        console.log(groups);
         this.pageNum = Math.ceil(groups.length / 4);
       } catch (e) {
         console.log(e);
@@ -55,9 +53,6 @@ export const useGroupStore = defineStore("group", {
       try {
         const response = await api.get(`/groups/${id}`, (config = config));
         const group = response.data.data;
-
-        console.log(`/groups/{id}: ${JSON.stringify(group)}`);
-        console.log(group);
         this.group = group;
       } catch (e) {
         console.log(e);
@@ -92,10 +87,7 @@ export const useGroupStore = defineStore("group", {
           req += `&group_name=${this.$state.search}`;
         }
         const response = await api.get(req, (config = config));
-
         const groups = response.data.data;
-
-        console.log(`/groups: ${JSON.stringify(groups)}`);
         this.groups = groups;
       } catch (e) {
         console.log(e);

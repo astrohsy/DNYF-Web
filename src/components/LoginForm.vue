@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md" style="max-width: 400px">
-    <q-form class="q-gutter-md" @submit="handleSignIn">
+    <q-form class="q-gutter-md">
       <q-btn type="submit">
         <q-avatar size="22px">
           <img src="images/auth0.png" />
@@ -10,7 +10,7 @@
       </q-btn>
       <pre>
       <code>{{ this.$auth0.user }}</code>
-      <q-btn @click="group">fefe</q-btn>
+      <q-btn @click="group">test</q-btn>
     </pre>
 
       <div></div>
@@ -20,17 +20,11 @@
 
 <script>
 import { defineComponent, ref } from "vue";
-import { useAuthStore } from "src/stores/auth";
 import { useGroupStore } from "src/stores/group";
-import { useQuasar } from "quasar";
-import { route } from "quasar/wrappers";
 
 export default defineComponent({
   name: "LoginForm",
   methods: {
-    async handleSignIn() {
-      await this.$auth0.loginWithRedirect();
-    },
     async group() {
       const tokenInfo = await this.$auth0.getAccessTokenSilently({
         detailedResponse: true,
@@ -42,11 +36,8 @@ export default defineComponent({
     },
   },
   setup() {
-    const $q = useQuasar();
-    const authStore = useAuthStore();
     const groupStore = useGroupStore();
     return {
-      authStore,
       groupStore,
     };
   },

@@ -90,7 +90,6 @@ export default defineComponent({
       });
     },
     onReset() {
-      console.log("onReset called");
       this.name.value = null;
       this.capacity.value = null;
       this.text.value = null;

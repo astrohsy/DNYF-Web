@@ -66,7 +66,6 @@ import { defineComponent, ref } from "vue";
 import GroupPost from "src/components/GroupPost.vue";
 import { useGroupStore } from "stores/group";
 import { useUserStore } from "stores/user";
-import { useQuasar } from "quasar";
 import { useAuth0 } from "@auth0/auth0-vue";
 
 export default defineComponent({
@@ -94,7 +93,6 @@ export default defineComponent({
     const groupStore = useGroupStore();
     const userStore = useUserStore();
     const { user } = useAuth0();
-    const $q = useQuasar();
     return {
       groupStore,
       userStore,

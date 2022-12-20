@@ -113,7 +113,6 @@ export default defineComponent({
   setup() {
     const { user } = useAuth0();
     const userStore = useUserStore();
-    console.log(user);
     return {
       userStore,
       $q,

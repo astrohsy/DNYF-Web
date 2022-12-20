@@ -40,8 +40,6 @@ export const useUserStore = defineStore("user", {
         const response = await api.get(`/users/${uid}`, (config = config));
         const user = response.data;
 
-        console.log(`/users/{id}: ${JSON.stringify(user)}`);
-        console.log(user);
         this.uid = uid;
         this.user = user;
         this.created = true;
