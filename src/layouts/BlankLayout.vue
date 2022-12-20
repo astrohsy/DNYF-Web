@@ -1,8 +1,9 @@
 <template>
   <q-layout view="hHh Lpr fFf">
     <q-page-container>
-      {{ this.userStore.uid }}
-      <!-- This is where pages get injected -->
+      <q-inner-loading :showing="true">
+        <q-spinner-gears size="150px" color="primary" />
+      </q-inner-loading>
     </q-page-container>
   </q-layout>
 </template>
@@ -43,7 +44,7 @@ export default {
       } else {
         this.$router.push({ path: "/" });
       }
-    }, 100);
+    }, 1000);
   },
   watch,
 };
