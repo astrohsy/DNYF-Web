@@ -1,32 +1,50 @@
 <template>
   <q-layout view="hHh Lpr fFf">
-    <!-- (Optional) A Drawer; you can add one more with side="right" or change this one's side -->
-    <q-drawer v-model="leftDrawerOpen" side="left" bordered class="bg-grey-2">
-      <!-- QScrollArea is optional -->
-      <q-scroll-area class="fit q-pa-sm">
-        <!-- Content here -->
-      </q-scroll-area>
-    </q-drawer>
-
     <q-page-container>
+      {{ this.userStore.uid }}
       <!-- This is where pages get injected -->
-      <router-view />
     </q-page-container>
   </q-layout>
 </template>
 
 <script>
-import { ref } from "vue";
+import { useAuth0 } from "@auth0/auth0-vue";
+import { watch } from "fs";
+import { useUserStore } from "src/stores/user";
 
 export default {
   name: "BlankLayout",
 
   setup() {
-    const leftDrawerOpen = ref(false);
+    const userStore = useUserStore();
+    const { user } = useAuth0();
 
     return {
-      leftDrawerOpen,
+      user,
+      userStore,
     };
   },
+  async mounted() {
+    const tokenInfo = await this.$auth0.getAccessTokenSilently({
+      detailedResponse: true,
+    });
+    const config = {
+      headers: {
+        Authorization: `Bearer ${tokenInfo.access_token}`,
+        "Access-Control-Allow-Origin": "*",
+      },
+    };
+    if (!this.userStore.uid) {
+      this.userStore.fetchUser(config, this.user.email);
+    }
+    setTimeout(() => {
+      if (!this.userStore.uid) {
+        this.$router.push({ path: "/profile" });
+      } else {
+        this.$router.push({ path: "/" });
+      }
+    }, 100);
+  },
+  watch,
 };
 </script>

@@ -6,6 +6,9 @@ import {
   createWebHashHistory,
 } from "vue-router";
 import routes from "./routes";
+import { useUserStore } from "src/stores/user";
+import { client } from "src/boot/auth0";
+import { unref } from "vue";
 
 /*
  * If not building with SSR mode, you can
@@ -17,7 +20,6 @@ import routes from "./routes";
  */
 
 export default route((store /* { store, ssrContext } */) => {
-  console.log("fefef", this);
   const createHistory = process.env.SERVER
     ? createMemoryHistory
     : process.env.VUE_ROUTER_MODE === "history"
@@ -31,6 +33,15 @@ export default route((store /* { store, ssrContext } */) => {
     history: createHistory(
       process.env.MODE === "ssr" ? void 0 : process.env.VUE_ROUTER_BASE
     ),
+  });
+  Router.beforeEach((to, from, next) => {
+    const userStore = useUserStore();
+    if (to.meta.requiresSignup && !userStore.uid) {
+      console.log(userStore.uid);
+      next({ path: "/blank" });
+    } else {
+      next();
+    }
   });
 
   return Router;

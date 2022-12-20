@@ -10,6 +10,9 @@ const routes = [
         name: "group",
         component: () => import("pages/GroupPage.vue"),
         beforeEnter: authGuard,
+        meta: {
+          requiresSignup: true,
+        },
       },
       {
         path: "/group-edit",

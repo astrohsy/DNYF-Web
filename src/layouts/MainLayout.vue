@@ -22,10 +22,7 @@
 
 <script>
 import { defineComponent, ref } from "vue";
-import { useAuthStore } from "stores/auth";
 import { useUserStore } from "stores/user";
-import { route } from "quasar/wrappers";
-const authStore = useAuthStore();
 import { useAuth0 } from "@auth0/auth0-vue";
 
 export default defineComponent({
@@ -39,7 +36,6 @@ export default defineComponent({
     const { logout, user } = useAuth0();
     const userStore = useUserStore();
     const redirect = (e, go) => {
-      console.log("hhihihihi");
       go({
         to: "/user", // we pick another route
         // replace: boolean; default is what the tab is configured with
@@ -61,7 +57,6 @@ export default defineComponent({
     return {
       redirect,
       model: ref("one"),
-      authStore,
       userStore,
       handleSignOut,
       user,
