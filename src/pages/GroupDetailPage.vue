@@ -1,5 +1,23 @@
 <template>
   <div class="q-pa-md">
+    <div class="row justify-start" :style="{ marginBottom: '1em' }">
+      <q-btn
+        @click="
+          () => {
+            this.$router.push('/');
+          }
+        "
+        label="Back"
+        :style="{ marginLeft: '1em' }"
+        class="col-1"
+        rounded
+        color="secondary"
+        icon="arrow_back"
+        no-caps
+      />
+    </div>
+
+    <q-separator :style="{ marginTop: '10pt', marginBottom: '10pt' }" />
     <q-table
       title="Participants"
       :rows="groupStore.group?.members"
