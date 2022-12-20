@@ -86,12 +86,10 @@ export default defineComponent({
       return this.members?.length;
     },
     async joinGroup() {
-      const tokenInfo = await this.$auth0.getAccessTokenSilently({
-        detailedResponse: true,
-      });
+      const tokenInfo = await this.$auth0.getAccessTokenSilently();
       const config = {
         headers: {
-          Authorization: `Bearer ${tokenInfo.id_token}`,
+          Authorization: `Bearer ${tokenInfo}`,
           "Access-Control-Allow-Origin": "*",
         },
       };
@@ -102,12 +100,10 @@ export default defineComponent({
       );
     },
     async leaveGroup() {
-      const tokenInfo = await this.$auth0.getAccessTokenSilently({
-        detailedResponse: true,
-      });
+      const tokenInfo = await this.$auth0.getAccessTokenSilently();
       const config = {
         headers: {
-          Authorization: `Bearer ${tokenInfo.id_token}`,
+          Authorization: `Bearer ${tokenInfo}`,
           "Access-Control-Allow-Origin": "*",
         },
       };

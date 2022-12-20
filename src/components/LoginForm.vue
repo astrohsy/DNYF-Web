@@ -26,11 +26,9 @@ export default defineComponent({
   name: "LoginForm",
   methods: {
     async group() {
-      const tokenInfo = await this.$auth0.getAccessTokenSilently({
-        detailedResponse: true,
-      });
+      const tokenInfo = await this.$auth0.getAccessTokenSilently();
       const config = {
-        headers: { Authorization: `Bearer ${tokenInfo.id_token}` },
+        headers: { Authorization: `Bearer ${tokenInfo}` },
       };
       this.groupStore.fetchGroups(config);
     },

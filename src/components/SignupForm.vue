@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-xs" style="max-width: 500px">
-    <q-form @submit="handleSignUp" @reset="onReset" class="q-gutter-md">
+    <q-form @submit="handleSignUp" class="q-gutter-md">
       <q-input
         filled
         v-model="user.email"
@@ -77,18 +77,16 @@ import { useUserStore } from "src/stores/user";
 import { defineComponent, ref } from "vue";
 import { useQuasar } from "quasar";
 import { useAuth0 } from "@auth0/auth0-vue";
-const $q = useQuasar();
 
 export default defineComponent({
   name: "SignupForm",
   methods: {
     async handleSignUp() {
-      const tokenInfo = await this.$auth0.getAccessTokenSilently({
-        detailedResponse: true,
-      });
+      const $q = useQuasar();
+      const tokenInfo = await this.$auth0.getAccessTokenSilently();
       const config = {
         headers: {
-          Authorization: `Bearer ${tokenInfo.id_token}`,
+          Authorization: `Bearer ${tokenInfo}`,
           "Access-Control-Allow-Origin": "*",
         },
       };
@@ -102,7 +100,7 @@ export default defineComponent({
       await this.userStore.createUser(config, data);
       this.$router.push("/");
 
-      this.$q.notify({
+      $q.notify({
         message: "Profile Saved!!!",
         caption: "Welcome to DNYF!!",
         color: "primary",
@@ -115,17 +113,14 @@ export default defineComponent({
     const userStore = useUserStore();
     return {
       userStore,
-      $q,
       user,
     };
   },
   async mounted() {
-    const tokenInfo = await this.$auth0.getAccessTokenSilently({
-      detailedResponse: true,
-    });
+    const tokenInfo = await this.$auth0.getAccessTokenSilently();
     const config = {
       headers: {
-        Authorization: `Bearer ${tokenInfo.id_token}`,
+        Authorization: `Bearer ${tokenInfo}`,
         "Access-Control-Allow-Origin": "*",
       },
     };

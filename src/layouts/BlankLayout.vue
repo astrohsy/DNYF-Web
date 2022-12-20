@@ -25,12 +25,10 @@ export default {
     };
   },
   async mounted() {
-    const tokenInfo = await this.$auth0.getAccessTokenSilently({
-      detailedResponse: true,
-    });
+    const tokenInfo = await this.$auth0.getAccessTokenSilently();
     const config = {
       headers: {
-        Authorization: `Bearer ${tokenInfo.access_token}`,
+        Authorization: `Bearer ${tokenInfo}`,
         "Access-Control-Allow-Origin": "*",
       },
     };

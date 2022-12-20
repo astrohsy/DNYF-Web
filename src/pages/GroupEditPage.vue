@@ -73,12 +73,10 @@ export default defineComponent({
         message: "Submitted",
       });
 
-      const tokenInfo = await this.$auth0.getAccessTokenSilently({
-        detailedResponse: true,
-      });
+      const tokenInfo = await this.$auth0.getAccessTokenSilently();
       const config = {
         headers: {
-          Authorization: `Bearer ${tokenInfo.id_token}`,
+          Authorization: `Bearer ${tokenInfo}`,
           "Access-Control-Allow-Origin": "*",
         },
       };

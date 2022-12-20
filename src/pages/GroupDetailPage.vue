@@ -71,12 +71,10 @@ export default defineComponent({
     };
   },
   async mounted() {
-    const tokenInfo = await this.$auth0.getAccessTokenSilently({
-      detailedResponse: true,
-    });
+    const tokenInfo = await this.$auth0.getAccessTokenSilently();
     const config = {
       headers: {
-        Authorization: `Bearer ${tokenInfo.id_token}`,
+        Authorization: `Bearer ${tokenInfo}`,
         "Access-Control-Allow-Origin": "*",
       },
     };
@@ -84,12 +82,10 @@ export default defineComponent({
     this.groupStore.fetchGroup(config, groupId);
   },
   async created() {
-    const tokenInfo = await this.$auth0.getAccessTokenSilently({
-      detailedResponse: true,
-    });
+    const tokenInfo = await this.$auth0.getAccessTokenSilently();
     const config = {
       headers: {
-        Authorization: `Bearer ${tokenInfo.id_token}`,
+        Authorization: `Bearer ${tokenInfo}`,
         "Access-Control-Allow-Origin": "*",
       },
     };
