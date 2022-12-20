@@ -58,7 +58,7 @@ export default defineComponent({
   props: {
     group_id: {
       type: Number,
-      required: true,
+      required: false,
     },
     group_name: {
       type: String,
