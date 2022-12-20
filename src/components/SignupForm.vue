@@ -66,6 +66,9 @@
         />
       </div>
     </q-form>
+    <q-inner-loading :showing="userStore.inProgress">
+      <q-spinner-gears size="50px" color="primary" />
+    </q-inner-loading>
   </div>
 </template>
 
@@ -96,13 +99,14 @@ export default defineComponent({
         email: this.user.email,
         zip_code: this.userStore.user.zip_code,
       };
-      this.userStore.createUser(config, data);
+      await this.userStore.createUser(config, data);
+      this.$router.push("/");
 
       this.$q.notify({
-        message: "Profile Info Saved!!!",
+        message: "Profile Saved!!!",
         caption: "Welcome to DNYF!!",
         color: "primary",
-        position: "top",
+        position: "bottom",
       });
     },
   },

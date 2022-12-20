@@ -7,6 +7,7 @@
         debounce="500"
         filled
         placeholder="Search by title"
+        @keyup.enter="fetchNextPage"
       >
         <template v-slot:append>
           <q-btn round color="primary" icon="search" @click="fetchNextPage" />
