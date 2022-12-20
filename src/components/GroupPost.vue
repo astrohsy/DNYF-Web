@@ -9,7 +9,7 @@
           </div>
 
           <q-rating
-            v-model="starRating"
+            :model-value="numjoinedMember()"
             :max="group_capacity"
             icon="persons"
             size="24px"
@@ -81,6 +81,9 @@ export default defineComponent({
     joinedGroup() {
       const id = this.userStore.uid;
       return this.members?.map((x) => x.id).includes(id);
+    },
+    numjoinedMember() {
+      return this.members?.length;
     },
     async joinGroup() {
       const tokenInfo = await this.$auth0.getAccessTokenSilently({
